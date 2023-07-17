@@ -17,7 +17,7 @@ which gdal_translate
 
 #Install the elevation package,
 # requires gdal
-#python -m pip install --target=./elevation elevation
+python -m pip install --target=./elevation elevation
 
-#python ./DEM.py 0 2 -79 -77 grassdata AZUFRAL_VOLCAN_location AZUFRAL_VOLCAN_mapset AZUFRAL_VOLCAN_map
-python ./get_tiff_map.py 0 2 -79 -77 grassdata AZUFRAL_VOLCAN_location PERMANENT AZUFRAL_VOLCAN_map
+# Default latitude and longitude to Buffalo, NY latitude and longitude coordinates.
+python ./get_tiff_map.py 42 44 -80 -78

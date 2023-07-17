@@ -25,7 +25,7 @@ Note: the invoke script must have the executable file permission bits set. For e
 - Connect to vpn.buffalo.edu/UBVPN if off-campus using [Cisco Secure Client](https://www.buffalo.edu/ubit/service-guides/connecting/vpn/computer.html).
 - Login to the [CCR Identity Management](https://idm.ccr.buffalo.edu/auth/login) portal to create a CCR account if necessary.
 
-#### Transfer scripts from your local machine to your home directory on CCR
+#### Transfer scripts from your local machine to your home directory on CCR:
 
 Note: these instructions use FileZilla to transfer files using the Secure File Transfer Protocol (SFTP).
 
@@ -36,7 +36,7 @@ Note: these instructions use FileZilla to transfer files using the Secure File T
 - Connect to sftp://vortex.ccr.buffalo.edu using port 22.
 - Transfer get_tiff_map.py and get_tiff_map.sh to your home directory on CCR.
   
-#### Execute scripts on CCR
+#### Execute scripts on CCR:
 
 - Login to the [CCR On Demand](https://ondemand.ccr.buffalo.edu/pun/sys/dashboard) portal.
 - Click on UB-HPC Cluster Desktop.

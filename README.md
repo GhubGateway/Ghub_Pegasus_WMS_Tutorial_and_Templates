@@ -12,13 +12,33 @@
 
 #### bin directory
 
+This directory contains the Python script.
+
 #### middleware directory
 
 This directory contains the invoke script which enables the ghub_exercise3.ipynb Jupyter Notebook to be launched on Ghub.
 
 Note: the invoke script must have the executable file permission bits set. For example, use chmod 755 invoke to set the executable file permission bits.
 
-### Run Python scropt on CCR for Initial Testing (optional):
+### Run Python script on CCR for Initial Testing (optional):
+
+Upload get_tiff_map.py and get_tiff_map.sh to your home directory on CCR.
+
+Click [CCR On Demand](https://ondemand.ccr.buffalo.edu/pun/sys/dashboard).
+
+Note: see [CCR Identity Management](https://idm.ccr.buffalo.edu/auth/login) to create a CCR account.
+
+Click on UB-HPC Cluster Desktop.
+
+Click on Launch.
+
+Click Launch UB-HPC Cluster Desktop.
+
+Open a terminal window.
+
+cd to your home directory on CCR.
+
+source ./get_tiff_map.sh
 
 ### Install and Run the Tool on Ghub for Initial Testing (optional):
 

@@ -69,7 +69,7 @@ Click the Appmode button.<br />
 
 Note: created tools are launched from the Ghub Dashboard's My Tools component.
 
-Note: when a new tool is created you will receive an email with a link to the tool's status page. The tool's status page will allow you to let the Ghub administrators know when you are ready to install updates for your tool.
+Note: when a new tool is created you will receive an email with a link to the tool's status page. The tool's status page will allow you to let the Ghub administrators know when you are ready to install updates for your tool or publish your tool.
 
 #### Host GIT repository on Github, Gitlab
 

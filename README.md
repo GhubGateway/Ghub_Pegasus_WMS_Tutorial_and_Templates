@@ -12,7 +12,7 @@
 
 #### bin directory
 
-This directory contains the Python script.
+This directory contains the Python and shell scripts.
 
 #### middleware directory
 
@@ -20,25 +20,32 @@ This directory contains the invoke script which enables the ghub_exercise3.ipynb
 
 Note: the invoke script must have the executable file permission bits set. For example, use chmod 755 invoke to set the executable file permission bits.
 
-### Run Python script on CCR for Initial Testing (optional):
+### Execute scripts on CCR for Initial Testing (optional):
 
-Upload get_tiff_map.py and get_tiff_map.sh to your home directory on CCR.
+- Connect to vpn.buffalo.edu/UBVPN if off-campus using [Cisco Secure Client](https://www.buffalo.edu/ubit/service-guides/connecting/vpn/computer.html).
+- Login to the [CCR Identity Management](https://idm.ccr.buffalo.edu/auth/login) portal to create a CCR account if necessary.
 
-Click [CCR On Demand](https://ondemand.ccr.buffalo.edu/pun/sys/dashboard).
+#### Transfer scripts from your local machine to your home directory on CCR
 
-Note: see [CCR Identity Management](https://idm.ccr.buffalo.edu/auth/login) to create a CCR account.
+Note: these instructions use FileZilla to transfer files using the Secure File Transfer Protocol (SFTP).
 
-Click on UB-HPC Cluster Desktop.
+- Follow instructions on [CCR Login Node](https://docs.ccr.buffalo.edu/en/latest/hpc/login/) to generate a SSH key pair comprising a public key and a private key.
+- Login to the [CCR Identity Management](https://idm.ccr.buffalo.edu/auth/login) portal and add the created SSH public key to your CCR account.
+- Launch [FileZilla](https://filezilla-project.org).
+- Select Edit/Settings/SFTP/Add key file to add the created SSH private key.
+- Connect to sftp://vortex.ccr.buffalo.edu using port 22.
+- Transfer get_tiff_map.py and get_tiff_map.sh to your home directory on CCR.
+  
+#### Execute scripts on CCR
 
-Click on Launch.
-
-Click Launch UB-HPC Cluster Desktop.
-
-Open a terminal window.
-
-cd to your home directory on CCR.
-
-source ./get_tiff_map.sh
+- Login to the [CCR On Demand](https://ondemand.ccr.buffalo.edu/pun/sys/dashboard) portal.
+- Click on UB-HPC Cluster Desktop.
+- Click on Launch.
+- Click Launch UB-HPC Cluster Desktop.
+- Open a terminal window.
+- Change the directory (cd) to your home directory on CCR.
+- Use chmod 755 get_tiff_map.sh to set the executable file permissions bits if necessary.
+- source ./get_tiff_map.sh.
 
 ### Install and Run the Tool on Ghub for Initial Testing (optional):
 

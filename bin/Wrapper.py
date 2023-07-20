@@ -52,7 +52,7 @@ class Wrapper():
 
     def __init__(self, parent, tooldir, bindir, datadir, workingdir, rundir,
                  latitude, longitude, 
-                 lat_south, lat_north, lat_west, lat_east, maxwalltime):
+                 lat_south, lat_north, lon_west, lon_east, maxwalltime):
 
         self.parent = parent
         self.tooldir = tooldir
@@ -124,16 +124,22 @@ class Wrapper():
             dax.addFile(get_tiff_map_py)
             
             # Job 1 output
-            filename = "tiff_map_info.txt"
+            filename = "elevation1.png"
             filepath = os.path.join(self.workingdir, filename)
-            tiff_map_info_txt =  DAX3.File(filename)
-            tiff_map_info_txt.addPFN(DAX3.PFN("file://" + filepath, "local"))
+            elevation1_png =  DAX3.File(filename)
+            elevation1_png.addPFN(DAX3.PFN("file://" + filepath, "local"))
+            
+            filename = "elevation2.pmg"
+            filepath = os.path.join(self.workingdir, filename)
+            elevation2_png =  DAX3.File(filename)
+            elevation2_png.addPFN(DAX3.PFN("file://" + filepath, "local"))
             
             jobstep1 = DAX3.Job(namespace="ghub_exercise1-workflow", name="python-launch")
             jobstep1.addProfile(DAX3.Profile(DAX3.Namespace.GLOBUS,'maxwalltime', self.maxwalltime))
-            jobstep1.addArguments("""./get_tiff_map %s %s %s %s""" %(self.lon_west, self.lat_south, self.lon_east, self.lat_north))
+            jobstep1.addArguments("""./get_tiff_map %s %s %s %s %s %s""" %(self.latitude, self.longitude, self.lon_west, self.lat_south, self.lon_east, self.lat_north))
             jobstep1.uses(get_tiff_map_py, link=DAX3.Link.INPUT)
-            jobstep1.uses(tiff_map_info_txt, link=DAX3.Link.OUTPUT, transfer=True)
+            jobstep1.uses(elevation1_png, link=DAX3.Link.OUTPUT, transfer=True)
+            jobstep1.uses(elevation2_png, link=DAX3.Link.OUTPUT, transfer=True)
             dax.addJob(jobstep1)
             
             #########################################################
@@ -196,11 +202,7 @@ class Wrapper():
                         # In case there is more than one stderr file in the working directory
                         break
                 return
-
-    
-            #'''
-            print (" ")
-            
+             
         except Exception as e:
             
             print ("Wrapper.py Exception: %s" %str(e))

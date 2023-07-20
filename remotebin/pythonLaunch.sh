@@ -21,9 +21,11 @@ if [ ${commandError} -eq 1 ] ; then
    exit ${ERROR_EXIT_CODE}
 fi
 
+# Loads
 . /util/common/Lmod/lmod/lmod/init/sh
-module load grass/7.2.2
-# Loads 
+module load python/py37-anaconda-2020.02
+python -m pip install --target=./packages rasterio
+python -m pip install --target=./packages elevation
 
 python "$@"
 

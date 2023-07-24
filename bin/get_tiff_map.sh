@@ -7,7 +7,7 @@
 # Also see: https://ubccr.freshdesk.com/support/solutions/articles/5000686391-software-modules
 
 #Load python module
-module load python/py37-anaconda-2020.02
+module load vhub/python
 which python
 
 # Install required python packages.

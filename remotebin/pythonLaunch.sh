@@ -23,9 +23,10 @@ fi
 
 # Loads
 . /util/common/Lmod/lmod/lmod/init/sh
-module load python/py37-anaconda-2020.02
+module load vhub/python
 python -m pip install --target=./packages rasterio
 python -m pip install --target=./packages elevation
 
 python "$@"
 
+exit 0

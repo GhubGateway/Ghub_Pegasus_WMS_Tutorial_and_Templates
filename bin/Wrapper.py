@@ -105,7 +105,7 @@ class Wrapper():
             #print ("matlab_launch_exec_path : %s" %matlab_launch_exec_path)
     
             e_python_launch = DAX3.Executable(namespace="ghub_exercise1-workflow", name="python-launch", \
-                os="linux", arch="x86_64", installed=False)
+                os="linux", osrelease="rhel", arch="x86_64", installed=False)
             e_python_launch.addPFN(DAX3.PFN("file://" + python_launch_exec_path , "local"))
             
             dax.addExecutable(e_python_launch)
@@ -129,7 +129,7 @@ class Wrapper():
             elevation1_png =  DAX3.File(filename)
             elevation1_png.addPFN(DAX3.PFN("file://" + filepath, "local"))
             
-            filename = "elevation2.pmg"
+            filename = "elevation2.png"
             filepath = os.path.join(self.workingdir, filename)
             elevation2_png =  DAX3.File(filename)
             elevation2_png.addPFN(DAX3.PFN("file://" + filepath, "local"))

@@ -136,7 +136,7 @@ class Wrapper():
             
             jobstep1 = DAX3.Job(namespace="ghub_exercise1-workflow", name="python-launch")
             jobstep1.addProfile(DAX3.Profile(DAX3.Namespace.GLOBUS,'maxwalltime', self.maxwalltime))
-            jobstep1.addArguments("""./get_tiff_map %s %s %s %s %s %s""" %(self.latitude, self.longitude, self.lon_west, self.lat_south, self.lon_east, self.lat_north))
+            jobstep1.addArguments("""get_tiff_map.py %s %s %s %s %s %s""" %(self.latitude, self.longitude, self.lon_west, self.lat_south, self.lon_east, self.lat_north))
             jobstep1.uses(get_tiff_map_py, link=DAX3.Link.INPUT)
             jobstep1.uses(elevation1_png, link=DAX3.Link.OUTPUT, transfer=True)
             jobstep1.uses(elevation2_png, link=DAX3.Link.OUTPUT, transfer=True)

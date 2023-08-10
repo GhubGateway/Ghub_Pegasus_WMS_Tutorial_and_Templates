@@ -38,7 +38,7 @@ Note: these instructions use FileZilla to transfer files using the Secure File T
   
 #### Execute scripts on CCR:
 
-- Login to the [CCR Open OnDemand](https://ondemand.ccr.buffalo.edu/pun/sys/dashboard) portal.
+- Login to the [CCR OnDemand 3.0](https://ondemand-future.ccr.buffalo.edu/pun/sys/dashboard) portal. See [CCR Open OnDemand](https://docs.ccr.buffalo.edu/en/latest/portals/ood) for more information.
 - Click on UB-HPC Cluster Desktop.
 - Click on Launch.
 - Click Launch UB-HPC Cluster Desktop.

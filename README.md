@@ -27,11 +27,6 @@ Note: the invoke script must have the executable file permission bits set. For e
 ```
 git clone https://github.com/rljbufny1/ghub_exercise1
 ```
-or 
-```
-Download tar file from https://github.com/rljbufny1/ghub_exercise1/releases
-```
-
 #### Launch the Jupyter Notebooks (202210) Tool from the Ghub Dashboard's My Tools component:<br />
 
 Open ghub_exercise1/ghub_exercise1.ipynb.<br />

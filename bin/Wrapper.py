@@ -100,10 +100,10 @@ class Wrapper():
             
             # Add MATLAB launch script to the workflow's transformation catalog.
             # Please see an example of a python launchscript in the /remotebin directory.
-            
-            python_launch_exec_path = os.path.join(self.tooldir, "remotebin", "pythonLaunch.sh")
-            #print ("matlab_launch_exec_path : %s" %matlab_launch_exec_path)
-    
+            tooldir = os.path.dirname(os.path.dirname(os.path.realpath(os.path.abspath(__file__))))
+            python_launch_exec_path =  os.path.join(tooldir, "remotebin/pythonLaunch.sh")
+            print ("python_launch_exec_path: %s" %python_launch_exec_path)
+
             e_python_launch = DAX3.Executable(namespace="ghub_exercise1-workflow", name="python-launch", \
                 os="linux", osrelease="rhel", arch="x86_64", installed=False)
             e_python_launch.addPFN(DAX3.PFN("file://" + python_launch_exec_path , "local"))

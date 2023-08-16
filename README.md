@@ -20,33 +20,6 @@ This directory contains the invoke script which enables the ghub_exercise1.ipynb
 
 Note: the invoke script must have the executable file permission bits set. For example, use chmod 755 invoke to set the executable file permission bits.
 
-### Execute scripts on CCR for Initial Testing (optional):
-
-- Connect to vpn.buffalo.edu/UBVPN if off-campus using [Cisco Secure Client](https://www.buffalo.edu/ubit/service-guides/connecting/vpn/computer.html).
-- Login to the [CCR Identity Management](https://idm.ccr.buffalo.edu/auth/login) portal to create a CCR account if necessary.
-
-#### Transfer scripts from your local machine to your home directory on CCR:
-
-Note: these instructions use FileZilla to transfer files using the Secure File Transfer Protocol (SFTP).
-
-- Follow instructions on [CCR Login Node](https://docs.ccr.buffalo.edu/en/latest/hpc/login/) to generate a SSH key pair comprising a public key and a private key.
-- Login to the [CCR Identity Management](https://idm.ccr.buffalo.edu/auth/login) portal and add the created SSH public key to your CCR account.
-- Launch [FileZilla](https://filezilla-project.org).
-- Select Edit/Settings/SFTP/Add key file to add the created SSH private key.
-- Connect to sftp://vortex.ccr.buffalo.edu using port 22.
-- Transfer get_tiff_map.py and get_tiff_map.sh to your home directory on CCR.
-  
-#### Execute scripts on CCR:
-
-- Login to the [CCR OnDemand](https://ondemand.ccr.buffalo.edu/pun/sys/dashboard) portal. See [CCR Open OnDemand](https://docs.ccr.buffalo.edu/en/latest/portals/ood) for more information.
-- Click on UB-HPC Cluster Desktop.
-- Click on Launch.
-- Click Launch UB-HPC Cluster Desktop.
-- Open a terminal window.
-- Change the directory (cd) to your home directory on CCR.
-- Use chmod 755 get_tiff_map.sh to set the executable file permissions bits if necessary.
-- source ./get_tiff_map.sh.
-
 ### Install and Run the Tool on Ghub for Initial Testing (optional):
 
 #### Launch the Workspace 10 Tool from the Ghub Dashboard's My Tools component and in a xterm terminal window enter:<br />
@@ -54,12 +27,6 @@ Note: these instructions use FileZilla to transfer files using the Secure File T
 ```
 git clone https://github.com/rljbufny1/ghub_exercise1
 ```
-or 
-```
-wget https://github.com/rljbufny1/ghub_exercise1/releases/download/v1.0.0/ghub_exercise1-src.tar.gz
-tar xvzf ghub_exercise1-src.tar.gz
-```
-
 #### Launch the Jupyter Notebooks (202210) Tool from the Ghub Dashboard's My Tools component:<br />
 
 Open ghub_exercise1/ghub_exercise1.ipynb.<br />

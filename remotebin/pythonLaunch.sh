@@ -21,11 +21,18 @@ if [ ${commandError} -eq 1 ] ; then
    exit ${ERROR_EXIT_CODE}
 fi
 
-# Loads
+# Load python module
 . /util/common/Lmod/lmod/lmod/init/sh
-module load vhub/python
-python -m pip install --target=./packages rasterio
-python -m pip install --target=./packages elevation
+# For initial testing only
+# old CCR env:
+module load python/py38-anaconda-2021.05
+# new CCR env:
+#module load anaconda3/2022.05
+which python
+
+rm -rf ./packages
+# Note: pip dependency conflicts occur but the netcdf4 package successfully installs
+python -m pip install --target=./packages netcdf4
 
 python "$@"
 

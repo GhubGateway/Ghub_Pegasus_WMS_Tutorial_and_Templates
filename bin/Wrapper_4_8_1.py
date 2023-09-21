@@ -19,40 +19,13 @@ import hublib.cmd
 import DAX3 as DAX3
 #help (DAX3)
 
-'''
-import signal
-
-from newthreading import Thread
-
-def sig_handler(self, signal, frame):
-    print ("\nWrapper.py thread: sig_handler signal: ", signal, "\n")
-    if Thread.rapptureCommandPid < 0:
-        print ("In sig_handler - Thread.rapptureCommandPid < 0\n")
-    else:
-        if Thread.rapptureCommandPid == 0:
-            print ("In sig_handler - Thread.rapptureCommandPid == 0 (child process)\n")
-        else:
-            print ("In sig_handler - Thread.rapptureCommandPid > 0 (parent process)\n")
-            print ("Terminating the workflow\n")
-            os.kill(Thread.rapptureCommandPid, signal)
-    print ("Wrapper.py thread about to sys.exit(1)")
-    sys.exit(1)
-
-# When multiprocessing is used vice threading GUI t.terminate issues a SIGTERM for this process.
-signal.signal(signal.SIGHUP, sig_handler)
-signal.signal(signal.SIGINT, sig_handler)
-signal.signal(signal.SIGQUIT, sig_handler)
-signal.signal(signal.SIGTERM, sig_handler)
-'''
 
 # Wrapper class
 # Called from ghub_exercise1.ipynb
 class Wrapper():
     
 
-    def __init__(self, parent, tooldir, bindir, datadir, workingdir, rundir,
-                 latitude, longitude, 
-                 lat_south, lat_north, lon_west, lon_east, maxwalltime):
+    def __init__(self, parent, tooldir, bindir, datadir, workingdir, rundir, modeling_group_path, maxwalltime):
 
         self.parent = parent
         self.tooldir = tooldir
@@ -60,29 +33,19 @@ class Wrapper():
         self.datadir = datadir
         self.workingdir = workingdir
         self.rundir = rundir
-        self.latitude = latitude
-        self.longitude = longitude
-        self.lat_south = lat_south
-        self.lat_north = lat_north
-        self.lon_west = lon_west
-        self.lon_east = lon_east
+        self.modeling_group_path = modeling_group_path
         self.maxwalltime = maxwalltime
 
-        '''
+        #'''
         print('self.parent: ', self.parent)
         print('self.tooldir: ', self.tooldir)
         print('self.bindir: ', self.bindir)
         print('self.datadir: ', self.datadir)
         print('self.workingdir: ', self.workingdir)
         print('self.rundir: ', self.rundir)
-        print('self.latitude: ', self.latitude)
-        print('self.longitude: ', self.longitude)
-        print('self.lat_south: ', self.lat_south)
-        print('self.lat_north : ', self.lat_north)
-        print('self.lon_west: ', self.lon_west)
-        print('self.lon_east: ', self.lon_east)
+        print('self.modeling_group_path: ', self.modeling_group_path)
         print('self.maxwalltime: ', self.maxwalltime)
-        '''
+        #'''
         
         self.run()
 
@@ -93,6 +56,7 @@ class Wrapper():
             #########################################################
             # Create the Pegasus WMS workflow
             #########################################################
+            print ('Wrapper_4_8_1...')
     
             # Create the workflow as an abstract DAG.
     
@@ -116,30 +80,24 @@ class Wrapper():
             # All files in a Pegasus workflow are referred to in the DAX using their Logical File Name (LFN). 
             # These LFNs are mapped to Physical File Names (PFNs) when Pegasus plans the workflow. 
 
-            # Job 1 input, compiled matlab executable
-            filename = "get_tiff_map.py"
+            # Job 1 input
+            filename = "get_netcdf_info.py"
             filepath = os.path.join(self.bindir, filename)
-            get_tiff_map_py =  DAX3.File(filename)
-            get_tiff_map_py.addPFN(DAX3.PFN("file://" + filepath, "local"))
-            dax.addFile(get_tiff_map_py)
+            get_netcdf_info_py =  DAX3.File(filename)
+            get_netcdf_info_py.addPFN(DAX3.PFN("file://" + filepath, "local"))
+            dax.addFile(get_netcdf_info_py)
             
             # Job 1 output
-            filename = "elevation1.png"
+            filename = "get_netcdf_info.txt"
             filepath = os.path.join(self.workingdir, filename)
-            elevation1_png =  DAX3.File(filename)
-            elevation1_png.addPFN(DAX3.PFN("file://" + filepath, "local"))
-            
-            filename = "elevation2.png"
-            filepath = os.path.join(self.workingdir, filename)
-            elevation2_png =  DAX3.File(filename)
-            elevation2_png.addPFN(DAX3.PFN("file://" + filepath, "local"))
-            
+            get_netcdf_info_txt =  DAX3.File(filename)
+            get_netcdf_info_txt.addPFN(DAX3.PFN("file://" + filepath, "local"))
+              
             jobstep1 = DAX3.Job(namespace="ghub_exercise1-workflow", name="python-launch")
             jobstep1.addProfile(DAX3.Profile(DAX3.Namespace.GLOBUS,'maxwalltime', self.maxwalltime))
-            jobstep1.addArguments("""get_tiff_map.py %s %s %s %s %s %s""" %(self.latitude, self.longitude, self.lon_west, self.lat_south, self.lon_east, self.lat_north))
-            jobstep1.uses(get_tiff_map_py, link=DAX3.Link.INPUT)
-            jobstep1.uses(elevation1_png, link=DAX3.Link.OUTPUT, transfer=True)
-            jobstep1.uses(elevation2_png, link=DAX3.Link.OUTPUT, transfer=True)
+            jobstep1.addArguments("""get_netcdf_info.py %s""" %(self.modeling_group_path))
+            jobstep1.uses(get_netcdf_info_py, link=DAX3.Link.INPUT)
+            jobstep1.uses(get_netcdf_info_txt, link=DAX3.Link.OUTPUT, transfer=True)
             dax.addJob(jobstep1)
             
             #########################################################
@@ -202,6 +160,7 @@ class Wrapper():
                         # In case there is more than one stderr file in the working directory
                         break
                 return
+              #'''
              
         except Exception as e:
             
@@ -215,20 +174,15 @@ class Wrapper():
 
 if __name__ == "__main__":
 
+    print ('sys.argv: ', sys.argv)
+
     parent = sys.argv[1]
     tooldir = sys.argv[2]
     bindir = sys.argv[3]
     datadir = sys.argv[4]
     workingdir = sys.argv[5]
     rundir = sys.argv[6]
-    latitude = sys.argv[7]
-    longitude = sys.argv[8]
-    lat_south = sys.argv[9]
-    lat_north = sys.argv[10]
-    lon_west = sys.argv[11]
-    lon_east = sys.argv[12]
-    maxwalltime = sys.argv[13]
+    modeling_group_path = sys.argv[7]
+    maxwalltime = sys.argv[8]
     
-    Wrapper(parent, tooldir, bindir, datadir, workingdir, rundir,
-        latitude, longitude, 
-        lat_south, lat_north, lon_west, lon_east, maxwalltime)
+    Wrapper(parent, tooldir, bindir, datadir, workingdir, rundir, modeling_group_path, maxwalltime)

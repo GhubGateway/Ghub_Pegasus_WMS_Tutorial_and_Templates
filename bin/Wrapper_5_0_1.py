@@ -116,7 +116,7 @@ class Wrapper():
             # Submit the Pegasus Workflow Plan
             #########################################################
     
-            '''
+            #'''
             submitcmd = ['submit', '--venue', 'WF-ccr-ghub', 'pegasus-plan', '--dax', 'workflow.yml']
             #print ('submitcmd: ', submitcmd)
 
@@ -148,7 +148,7 @@ class Wrapper():
                         # In case there is more than one stderr file in the working directory
                         break
                 return
-              '''
+              #'''
              
         except Exception as e:
             

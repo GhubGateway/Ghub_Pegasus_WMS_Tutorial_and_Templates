@@ -41,20 +41,27 @@ def main(argv):
             #print ('file: ', file)
             if os.path.isfile(os.path.join(path, file)):
 
-                #print ('%s is a file' %file)
-                nc_dataset = netCDF4.Dataset(os.path.join(path, file), 'r')
-                #print ('type(nc_dataset): ', type(nc_dataset))
-                #print ('nc_dataset: ', nc_dataset)
-                             
-                # Extract the variables
-                keys = list(nc_dataset.variables.keys())
-                #print ('type(keys): ', type(keys))
-                #print ('len(keys): ', len(keys))
+                # Ignore hidden files
+                if file.startswith('.') == False:
                 
-                if 'time' in keys:
-                    FH1.write ('{0} time units: {1}\n'.format(file, nc_dataset.variables['time'].units))
-                else:
-                    FH1.write ('WARNING {0} time variable not found\n'.format(file))
+                    try:
+                        #print ('%s is a file' %file)
+                        nc_dataset = netCDF4.Dataset(os.path.join(path, file), 'r')
+                        #print ('type(nc_dataset): ', type(nc_dataset))
+                        #print ('nc_dataset: ', nc_dataset)
+                                     
+                        # Extract the variables
+                        keys = list(nc_dataset.variables.keys())
+                        #print ('type(keys): ', type(keys))
+                        #print ('len(keys): ', len(keys))
+                        
+                        if 'time' in keys:
+                            FH1.write ('{0} time units: {1}\n'.format(file, nc_dataset.variables['time'].units))
+                        else:
+                            FH1.write ('WARNING {0} time variable not found\n'.format(file))
+                            
+                    except Exception as e:
+                         print ('WARNING: get_netcdf_info.py exception encountered: ', str(e))
                                
             elif os.path.isdir(os.path.join(path, file)):
 

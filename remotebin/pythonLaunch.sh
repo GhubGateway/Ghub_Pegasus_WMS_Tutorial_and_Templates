@@ -30,10 +30,13 @@ module load python/py38-anaconda-2021.05
 #module load anaconda3/2022.05
 which python
 
-rm -rf ./packages
-# Note: pip dependency conflicts occur but the netcdf4 package successfully installs
-python -m pip install --target=./packages netcdf4
-
+if ! [ -d ./packages] ; then
+    # Notes:
+    # pip dependency conflicts occur but the netcdf4 and xarray packages successfully install.
+    # netcdf4 is required and provides a backend for xarray.
+    python -m pip install --target=./packages netcdf4
+    python -m pip install --target=./packages xarray
+fi
 python "$@"
 
 exit 0

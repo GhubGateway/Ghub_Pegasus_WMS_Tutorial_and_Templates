@@ -1,13 +1,15 @@
 #----------------------------------------------------------------------------------------------------------------------
-# Class: Wrapper
+# Class: Wrapper_5.0.1
 # Component of: ghub_exercise1 (github.com)
 # Called from: ghub_exercise1.ipynb
-# Purpose: Run a Pegasus workflow via the HUBzero hublib.cmd interface
+# Purpose: Run a Pegasus WMS 5.0.1 workflow via the HUBzero hublib.cmd interface
 # Author: Renette Jones-Ivey
 # Date: Sept 2023
 #---------------------------------------------------------------------------------------------------------------------
-import sys
+
+import ast
 import os
+import sys
 
 #import Rappture
 #from Rappture.tools import executeCommand as RapptureExec
@@ -23,7 +25,7 @@ from Pegasus.api import *
 class Wrapper():
     
 
-    def __init__(self, parent, tooldir, bindir, datadir, workingdir, rundir, modeling_group, maxwalltime):
+    def __init__(self, parent, tooldir, bindir, datadir, workingdir, rundir, folder, modeling_group_list, maxwalltime):
 
         self.parent = parent
         self.tooldir = tooldir
@@ -31,7 +33,8 @@ class Wrapper():
         self.datadir = datadir
         self.workingdir = workingdir
         self.rundir = rundir
-        self.modeling_group = modeling_group
+        self.folder = folder
+        self.modeling_group_list = ast.literal_eval(modeling_group_list)
         self.maxwalltime = maxwalltime
 
         #'''
@@ -41,7 +44,9 @@ class Wrapper():
         print('self.datadir: ', self.datadir)
         print('self.workingdir: ', self.workingdir)
         print('self.rundir: ', self.rundir)
-        print('self.modeling_group: ', self.modeling_group)
+        print('self.folder: ', self.folder)
+        print('self.modeling_group_list: ', self.modeling_group_list)
+        print('len(self.modeling_group_list): ', len(self.modeling_group_list))
         print('self.maxwalltime: ', self.maxwalltime)
         #'''
         
@@ -63,6 +68,7 @@ class Wrapper():
             # Add python launch script to the transformation catalog
                 
             tooldir = os.path.dirname(os.path.dirname(os.path.realpath(os.path.abspath(__file__))))
+            print ('tooldir: ', tooldir)
             python_launch_exec_path =  os.path.join(tooldir, 'remotebin', 'pythonLaunch.sh')
             print ("python_launch_exec_path: %s" %python_launch_exec_path)
             
@@ -72,7 +78,8 @@ class Wrapper():
                 pfn=python_launch_exec_path,
                 is_stageable = True, #Stageable or installed
                 arch=Arch.X86_64,
-                os_type=OS.LINUX)
+                os_type=OS.LINUX,
+                os_release="rhel")
 
             tc.add_transformations(pythonlaunch)
             wf.add_transformation_catalog(tc)
@@ -82,18 +89,53 @@ class Wrapper():
             # Add input files to the DAX-level replica catalog
             
             rc.add_replica('local', File('get_netcdf_info.py'), os.path.join(self.bindir, 'get_netcdf_info.py'))
+            rc.add_replica('local', File('process_netcdf_info.py'), os.path.join(self.bindir, 'process_netcdf_info.py'))
             wf.add_replica_catalog(rc)
 
             # Add job(s) to the workflow
             
-            pythonjob  = Job(pythonlaunch)\
-                .add_args("""get_netcdf_info.py %s""" %(self.modeling_group))\
-                .add_inputs(File('get_netcdf_info.py'))\
-                .add_outputs(File('get_netcdf_info.txt'))\
+            get_netcdf_info_job_list = []
+            file_basename_list = []
+
+            for i in range(len(self.modeling_group_list)):
+            
+                modeling_group = self.modeling_group_list[i]
+                #print ('modeling_group: ', modeling_group)
+                modeling_group_path = os.path.join(self.folder, modeling_group)
+                #print ('modeling_group_path: ', modeling_group_path)
+                file_basename = '_'.join(modeling_group_path.split('/')[-2:])
+                #print ('file_basename: ', file_basename)
+                file_basename_list.append(file_basename)
+                
+                get_netcdf_info_job = Job(pythonlaunch)\
+                    .add_args("""get_netcdf_info.py %s""" %(modeling_group_path))\
+                    .add_inputs(File('get_netcdf_info.py'))\
+                    .add_outputs(File('%s.txt' %file_basename), stage_out=True, register_replica=False)\
+                    .add_outputs(File('%s.json' %file_basename), stage_out=False, register_replica=False)\
+                    .add_metadata(time='%d' %self.maxwalltime)
+                    
+                wf.add_jobs(get_netcdf_info_job)
+                get_netcdf_info_job_list.append (get_netcdf_info_job)
+            
+            #print (str(self.modeling_group_list))
+            #print ('''process_netcdf_info.py %s %s''' %(self.folder, '"' + str(self.modeling_group_list) + '"' ))
+            
+            process_netcdf_info_job = Job(pythonlaunch)\
+                .add_args('''process_netcdf_info.py %s %s''' %(self.folder, '"' + str(self.modeling_group_list) + '"'))\
+                .add_inputs(File('process_netcdf_info.py'))\
+                .add_outputs(File('processed_netcdf_info.txt'), stage_out=True, register_replica=False)\
                 .add_metadata(time='%d' %self.maxwalltime)
                 
-            wf.add_jobs(pythonjob)
+            for i in range(len(self.modeling_group_list)):
+                modeling_group = self.modeling_group_list[i]
+                process_netcdf_info_job.add_inputs(File('%s.json' %file_basename_list[i]), bypass_staging=True)
+                
+            wf.add_jobs(process_netcdf_info_job)
             
+            # process_netcdf_info_job depends on all the get_netcdf_info_jobs completing
+            
+            wf.add_dependency(process_netcdf_info_job, parents=get_netcdf_info_job_list)
+
             #########################################################
             # Create the Pegasus Workflow YML file
             #########################################################
@@ -131,7 +173,6 @@ class Wrapper():
             
                 # In this case, look for .stderr and .stdout files in the work directory
                 print ('Wrapper.py: hublib.cmd.command.executeCommand(%s) returned with a non zero exit code = %d\n' %(submitcmd, exitCode))
-                #self.parent.handle_wrapper_error()
                 files = os.listdir(self.workingdir)
                 files.sort(key=lambda x: os.path.getmtime(x))
                 for file in files:
@@ -169,7 +210,8 @@ if __name__ == '__main__':
     datadir = sys.argv[4]
     workingdir = sys.argv[5]
     rundir = sys.argv[6]
-    modeling_group = sys.argv[7]
-    maxwalltime = sys.argv[8]
+    folder = sys.argv[7]
+    modeling_group_list = sys.argv[8]
+    maxwalltime = sys.argv[9]
     
-    Wrapper(parent, tooldir, bindir, datadir, workingdir, rundir, modeling_group, maxwalltime)
+    Wrapper(parent, tooldir, bindir, datadir, workingdir, rundir, folder, modeling_group_list, maxwalltime)

@@ -24,9 +24,9 @@ fi
 # Load python module
 . /util/common/Lmod/lmod/lmod/init/sh
 # For initial testing only
-# old CCR env:
+# old CCR env, vortex.ccr.buffalo.edu:
 module load python/py38-anaconda-2021.05
-# new CCR env:
+# new CCR env, vortex-future.ccr.buffalo.edu:
 #module load anaconda3/2022.05
 which python
 

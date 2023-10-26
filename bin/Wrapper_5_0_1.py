@@ -25,7 +25,7 @@ from Pegasus.api import *
 class Wrapper():
     
 
-    def __init__(self, parent, tooldir, bindir, datadir, workingdir, rundir, folder, modeling_group_list, maxwalltime):
+    def __init__(self, parent, tooldir, bindir, datadir, workingdir, rundir, ice_sheet_folder, ice_sheet_description, modeling_groups, maxwalltime):
 
         self.parent = parent
         self.tooldir = tooldir
@@ -33,8 +33,10 @@ class Wrapper():
         self.datadir = datadir
         self.workingdir = workingdir
         self.rundir = rundir
-        self.folder = folder
-        self.modeling_group_list = ast.literal_eval(modeling_group_list)
+        self.ice_sheet_folder = ice_sheet_folder
+        self.ice_sheet = ice_sheet_folder.split('/')[-1]
+        self.ice_sheet_description = ice_sheet_description
+        self.modeling_groups = modeling_groups
         self.maxwalltime = maxwalltime
 
         #'''
@@ -44,9 +46,10 @@ class Wrapper():
         print('self.datadir: ', self.datadir)
         print('self.workingdir: ', self.workingdir)
         print('self.rundir: ', self.rundir)
-        print('self.folder: ', self.folder)
-        print('self.modeling_group_list: ', self.modeling_group_list)
-        print('len(self.modeling_group_list): ', len(self.modeling_group_list))
+        print('self.ice_sheet_folder: ', self.ice_sheet_folder)
+        print('self.ice_sheet: ', self.ice_sheet)
+        print('self.ice_sheet_description: ', self.ice_sheet_description)
+        print('self.modeling_groups: ', self.modeling_groups)
         print('self.maxwalltime: ', self.maxwalltime)
         #'''
         
@@ -55,7 +58,7 @@ class Wrapper():
     def run(self):
 
         try:
-        
+
             #########################################################
             # Create the Pegasus WMS workflow
             #########################################################
@@ -93,19 +96,28 @@ class Wrapper():
             wf.add_replica_catalog(rc)
 
             # Add job(s) to the workflow
-            
-            get_netcdf_info_job_list = []
-            file_basename_list = []
 
-            for i in range(len(self.modeling_group_list)):
+            modeling_groups_list = list(self.modeling_groups.split(','))
+            print ('modeling_groups_list: ', modeling_groups_list)
+            print ('type(self.modeling_groups_list): ', type(modeling_groups_list))
+            print('len(modeling_groups_list): ', len(modeling_groups_list))
+
             
-                modeling_group = self.modeling_group_list[i]
-                #print ('modeling_group: ', modeling_group)
-                modeling_group_path = os.path.join(self.folder, modeling_group)
-                #print ('modeling_group_path: ', modeling_group_path)
+            file_basename_list = []
+            get_netcdf_info_job_list = []
+
+            for i in range(len(modeling_groups_list)):
+            
+                modeling_group  = modeling_groups_list[i]
+                print ('modeling_group: ', modeling_group)
+                modeling_group_path = os.path.join(self.ice_sheet_folder, modeling_group)
+                print ('modeling_group_path: ', modeling_group_path)
                 file_basename = '_'.join(modeling_group_path.split('/')[-2:])
-                #print ('file_basename: ', file_basename)
+                print ('file_basename: ', file_basename)
                 file_basename_list.append(file_basename)
+
+                # Note: on Ghub, .add_outputs register_replica must be set to False (the default is True) to prevent
+                # Pegasus from returning with a post script failure.
                 
                 get_netcdf_info_job = Job(pythonlaunch)\
                     .add_args("""get_netcdf_info.py %s""" %(modeling_group_path))\
@@ -116,18 +128,14 @@ class Wrapper():
                     
                 wf.add_jobs(get_netcdf_info_job)
                 get_netcdf_info_job_list.append (get_netcdf_info_job)
-            
-            #print (str(self.modeling_group_list))
-            #print ('''process_netcdf_info.py %s %s''' %(self.folder, '"' + str(self.modeling_group_list) + '"' ))
-            
+
             process_netcdf_info_job = Job(pythonlaunch)\
-                .add_args('''process_netcdf_info.py %s %s''' %(self.folder, '"' + str(self.modeling_group_list) + '"'))\
+                .add_args('''process_netcdf_info.py %s %s %s''' %(self.ice_sheet_folder, self.ice_sheet_description, self.modeling_groups))\
                 .add_inputs(File('process_netcdf_info.py'))\
-                .add_outputs(File('processed_netcdf_info.txt'), stage_out=True, register_replica=False)\
+                .add_outputs(File('%s_processed_netcdf_info.txt' %self.ice_sheet), stage_out=True, register_replica=False)\
                 .add_metadata(time='%d' %self.maxwalltime)
                 
-            for i in range(len(self.modeling_group_list)):
-                modeling_group = self.modeling_group_list[i]
+            for i in range(len(modeling_groups_list)):
                 process_netcdf_info_job.add_inputs(File('%s.json' %file_basename_list[i]), bypass_staging=True)
                 
             wf.add_jobs(process_netcdf_info_job)
@@ -210,8 +218,9 @@ if __name__ == '__main__':
     datadir = sys.argv[4]
     workingdir = sys.argv[5]
     rundir = sys.argv[6]
-    folder = sys.argv[7]
-    modeling_group_list = sys.argv[8]
-    maxwalltime = sys.argv[9]
+    ice_sheet_folder = sys.argv[7]
+    ice_sheet_description = sys.argv[8]
+    modeling_groups = sys.argv[9]
+    maxwalltime = sys.argv[10]
     
-    Wrapper(parent, tooldir, bindir, datadir, workingdir, rundir, folder, modeling_group_list, maxwalltime)
+    Wrapper(parent, tooldir, bindir, datadir, workingdir, rundir, ice_sheet_folder, ice_sheet_description, modeling_groups, maxwalltime)

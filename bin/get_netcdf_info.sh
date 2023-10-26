@@ -23,5 +23,6 @@ which python
 #python -m pip install --target=./packages netcdf4
 #python -m pip install --target=./packages xarray
 
-#python ./get_netcdf_info.py '/projects/grid/ghub/ISMIP6/Projections/Reprocessed/CMIP6_Archive_Final/AIS/AWI'
-python ./get_netcdf_info.py '/projects/grid/ghub/ISMIP6/Projections/Reprocessed/CMIP6_Archive_Final/AIS/ILTS_PIK'
+python ./get_netcdf_info.py '/projects/grid/ghub/ISMIP6/Projections/Reprocessed/CMIP6_Archive_Final/AIS/AWI'
+#python ./get_netcdf_info.py '/projects/grid/ghub/ISMIP6/Projections/Reprocessed/CMIP6_Archive_Final/AIS/DOE'
+#python ./get_netcdf_info.py '/projects/grid/ghub/ISMIP6/Projections/Reprocessed/CMIP6_Archive_Final/AIS/ILTS_PIK'

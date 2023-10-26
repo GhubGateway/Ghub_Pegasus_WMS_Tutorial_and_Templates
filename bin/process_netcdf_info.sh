@@ -16,4 +16,4 @@ module load python/py38-anaconda-2021.05
 #module load anaconda3/2022.05
 which python
 
-python ./process_netcdf_info.py "/projects/grid/ghub/ISMIP6/Projections/Reprocessed/CMIP6_Archive_Final/AIS" "['AWI', 'ILTS_PIK']"
+python ./process_netcdf_info.py '/projects/grid/ghub/ISMIP6/Projections/Reprocessed/CMIP6_Archive_Final/AIS' 'Antarctica' 'AWI,DOE,ILTS_PIK'

@@ -1,6 +1,6 @@
-## https://github.com/rljbufny1/ghub_exercise1
+## Ghub Pegasus WMS Python Example
 
-- Demonstrates the procedure for hosting the Github tool, ghub_exercise1, on the Ghub Science Gateway.
+- Demonstrates the procedure for hosting the Github tool, ghubex1, on the Ghub Science Gateway.
 - Demonstrates running a Ghub Pegasus Workflow Management System (WMS) Python script workflow on University at Buffalo (UB)'s Center For Computational Research (CCR)'s generally accessible high performance compute cluster, UB-HPC.
 - See https://theghub.org for more information on the Ghub Science Gateway.<br /> 
 - See https://www.buffalo.edu/ccr.html for more information on CCR.<br />

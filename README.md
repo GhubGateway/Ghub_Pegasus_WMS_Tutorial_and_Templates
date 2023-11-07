@@ -10,9 +10,17 @@
 
 #### ghub_exercise1.ipynb
 
+#### doc directory
+
+This directory contains a PDF file decribing implementation details for Ghub Peagsus WMS Python Workflows.
+
 #### bin directory
 
-This directory contains the Python and shell scripts.
+This directory contains the Python scripts to run on CCR's high performance compute cluster.
+
+### remotebin directory
+
+This directory contains the bash script, pythonLaunch.sh, used by the Pegagus WMS to launch the python scripts in the bin directory. A Python environment was created for this tool, see remotebin/pythonLaunch.sh for details. See https://docs.ccr.buffalo.edu/en/latest/howto/python/ for instructions on how to make and use a Python virtual environment (venv) for CCR's systems. If you need assistance creating a Python environment for your tool, please open a Ghub ticket.
 
 #### middleware directory
 
@@ -47,7 +55,7 @@ Enter svn commit -m "commit message" to check updates into the svn repository.<b
 #### Launch the Workspace 10 Tool from the Ghub Dashboard's My Tools component and in a xterm terminal window enter:<br />
 
 ```
-git clone https://github.com/rljbufny1/ghub_exercise1
+git clone https://github.com/GhubGateway/Ghub_Pegasus_WMS_Python_Example
 ```
 #### Launch the Jupyter Notebooks (202210) Tool from the Ghub Dashboard's My Tools component:<br />
 

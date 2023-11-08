@@ -1,7 +1,6 @@
 ## Ghub Pegasus WMS Python Example
 
-- Demonstrates the procedure for hosting the Github tool, ghubex1, on the Ghub Science Gateway.
-- Demonstrates running a Ghub Pegasus Workflow Management System (WMS) Python script workflow on University at Buffalo (UB)'s Center For Computational Research (CCR)'s generally accessible high performance compute cluster, UB-HPC.
+- Demonstrates hosting a Github tool on the Ghub Science Gateway and running a Ghub Pegasus Workflow Management System (WMS) Python script workflow on the University at Buffalo (UB)'s Center For Computational Research (CCR)'s generally accessible high performance compute cluster, UB-HPC.
 - See https://theghub.org for more information on the Ghub Science Gateway.<br /> 
 - See https://www.buffalo.edu/ccr.html for more information on CCR.<br />
 - See https://pegasus.isi.edu/documentation/index.html for more information on the Pegasus WMS.<br /> 
@@ -10,17 +9,15 @@
 
 #### ghub_exercise1.ipynb
 
-#### doc directory
-
-This directory contains a PDF file decribing implementation details for Ghub Peagsus WMS Python Workflows.
+This Jupyter Notebook provides the user interface for the Pegasus WMS workflow. See doc/Ghub_Pegasus_WMS_Workflows.pdf for more information.
 
 #### bin directory
 
 This directory contains the Python scripts to run on CCR's high performance compute cluster.
 
-### remotebin directory
+#### remotebin directory
 
-This directory contains the bash script, pythonLaunch.sh, used by the Pegagus WMS to launch the python scripts in the bin directory. A Python environment was created for this tool, see remotebin/pythonLaunch.sh for details. See https://docs.ccr.buffalo.edu/en/latest/howto/python/ for instructions on how to make and use a Python virtual environment (venv) for CCR's systems. If you need assistance creating a Python environment for your tool, please open a Ghub ticket.
+This directory contains the bash script, pythonLaunch.sh, used by the Pegasus WMS to launch the python scripts contained in the bin directory. A Python virtual environment was created for this tool, see remotebin/pythonLaunch.sh for details. See https://docs.ccr.buffalo.edu/en/latest/howto/python/ for instructions on how to create and use a Python virtual environment (venv) for CCR's systems. If you need assistance creating a Python virtual environment for your tool, please open a Ghub support ticket.
 
 #### middleware directory
 
@@ -42,7 +39,7 @@ Follow the instructions on the https://theghub.org/tools/create web page. Select
 
 Alernately, follow the instructions on the https://theghub.org/tools/create web page to create a new tool and select the Repository Host: Host subversion repository on HUB. Select the Publishing Option, Jupyter Notebook, and enter the name of your tool, for example, ghubex1.
 
-In this case, the middleware/invoke script will be created automatically and stored in the subversion repository (svn) on Ghub. You will need to add ghub_exercise1.ipynb and the src and bin directory files to the svn repository.
+In this case, the middleware/invoke script will be created automatically and stored in the subversion repository (svn) on Ghub. You will need to add ghub_exercise1.ipynb and the bin and remotebin directory files to the svn repository.
 
 Example svn commands:
 

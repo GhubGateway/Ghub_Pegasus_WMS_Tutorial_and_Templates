@@ -99,8 +99,8 @@ class Wrapper():
 
             modeling_groups_list = list(self.modeling_groups.split(','))
             print ('modeling_groups_list: ', modeling_groups_list)
-            print ('type(self.modeling_groups_list): ', type(modeling_groups_list))
-            print('len(modeling_groups_list): ', len(modeling_groups_list))
+            #print ('type(self.modeling_groups_list): ', type(modeling_groups_list))
+            #print('len(modeling_groups_list): ', len(modeling_groups_list))
 
             
             file_basename_list = []
@@ -109,11 +109,11 @@ class Wrapper():
             for i in range(len(modeling_groups_list)):
             
                 modeling_group  = modeling_groups_list[i]
-                print ('modeling_group: ', modeling_group)
+                #print ('modeling_group: ', modeling_group)
                 modeling_group_path = os.path.join(self.ice_sheet_folder, modeling_group)
-                print ('modeling_group_path: ', modeling_group_path)
+                #print ('modeling_group_path: ', modeling_group_path)
                 file_basename = '_'.join(modeling_group_path.split('/')[-2:])
-                print ('file_basename: ', file_basename)
+                #print ('file_basename: ', file_basename)
                 file_basename_list.append(file_basename)
 
                 # Note: on Ghub, .add_outputs register_replica must be set to False (the default is True) to prevent
@@ -122,8 +122,8 @@ class Wrapper():
                 get_netcdf_info_job = Job(pythonlaunch)\
                     .add_args("""get_netcdf_info.py %s""" %(modeling_group_path))\
                     .add_inputs(File('get_netcdf_info.py'))\
-                    .add_outputs(File('%s.txt' %file_basename), stage_out=True, register_replica=False)\
-                    .add_outputs(File('%s.json' %file_basename), stage_out=False, register_replica=False)\
+                    .add_outputs(File('%s_netcdf_info.txt' %file_basename), stage_out=True, register_replica=False)\
+                    .add_outputs(File('%s_netcdf_info.json' %file_basename), stage_out=False, register_replica=False)\
                     .add_metadata(time='%d' %self.maxwalltime)
                     
                 wf.add_jobs(get_netcdf_info_job)
@@ -136,7 +136,7 @@ class Wrapper():
                 .add_metadata(time='%d' %self.maxwalltime)
                 
             for i in range(len(modeling_groups_list)):
-                process_netcdf_info_job.add_inputs(File('%s.json' %file_basename_list[i]), bypass_staging=True)
+                process_netcdf_info_job.add_inputs(File('%s_netcdf_info.json' %file_basename_list[i]), bypass_staging=True)
                 
             wf.add_jobs(process_netcdf_info_job)
             

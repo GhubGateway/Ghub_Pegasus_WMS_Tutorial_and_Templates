@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------------------------------------------------------
-# Component of: ghub_exercise1 (github.com)
+# Component of: Ghub_Pegasus_WMS_Python_Example (github.com)
 # Called from: Invoked as a thread from ghub_exercise1.ipynb
-# Purpose: Run a Pegasus workflow via the HUBzero hublib.cmd interface
+# Purpose: Run a Pegasus WMS Python workflow via the HUBzero hublib.cmd interface
 # Author: Renette Jones-Ivey
 # Date: July 2023
 #---------------------------------------------------------------------------------------------------------------------
@@ -14,15 +14,13 @@ import pandas as pd
 import sys
 import time
 
-sys.path.append ('./packages')
-print("sys.path: ", sys.path)
-
 import xarray as xr
-print (xr.__file__)
-print (xr.__version__)
+#print (xr.__file__)
+#print (xr.__version__)
+
+from tabulate import tabulate
 
 # check motonocity of a list (used to check time serie) 
-
 def strictly_increasing(L):
     return all(x<y for x, y in zip(L, L[1:]))
 
@@ -32,26 +30,34 @@ def main(argv):
     print ('argv: ', argv)
     
     start_time = time.time()
-
+    
     # Process files in ISMIP6 directories
-    model_path = argv[1]
-    print ('model_path: ', model_path)
-    model_path_split = model_path.split('/')
-    print ('model_path_split: ', model_path_split)
-    file_basename = '_'.join(model_path.split('/')[-2:])
+    
+    modeling_group_path = argv[1]
+    print ('modeling_group_path: ', modeling_group_path)
+
+    recognized_variables = ['acabf', 'libmassbffl', 'lithk', 'sftflf', 'sftgif', 'sftgrf', 'topg', 'xvelmean', 'xvelsurf', 'yvelmean', 'yvelsurf']
+    print ('recognized_variables: ', recognized_variables)
+    
+    file_basename = '_'.join(modeling_group_path.split('/')[-2:])
     print ('file_basename: ', file_basename)
-    FH1 = open('%s.txt' %file_basename, 'w')
+    
+    FH1 = open('%s_netcdf_info.txt' %file_basename, 'w')
+    
+    print ('Modeling Group Path: ', modeling_group_path)
+    FH1.write('\nModeling Group Path: {0}\n\n'.format(modeling_group_path))
+    
+    table = [['Group', 'Model', 'Experiment', 'Variable', 'Iterations', 'Units', 'Calendar', 'Avgyear', 'Start', 'End', 'Time Step', 'Duration Years']]
+
     netcdf_dict = {}
-    netcdf_dict_json_file = '%s.json' %file_basename
-
-    FH1.write('\nModel {0}: \n'.format(model_path))
-
+    netcdf_dict_json_file = '%s_netcdf_info.json' %file_basename
+    
     def get_dir_ls(path):
 
-        print ('path: ', path)
-        FH1.write ('Path {0}:\n'.format(path))
+        print ('Path: ', path)
+        #FH1.write ('Path {0}:\n'.format(path))
         
-        for file in os.listdir(path):
+        for file in sorted(os.listdir(path)):
 
             #print ('file: ', file)
             if os.path.isfile(os.path.join(path, file)):
@@ -66,9 +72,9 @@ def main(argv):
                         
                         variable = file_split[0]
                         
-                        if variable in ['acabf', 'libmassbffl', 'lithk', 'sftflf', 'sftgif', 'sftgrf', 'topg', 'xvelmean', 'xvelsurf', 'yvelmean', 'yvelsurf']:
+                        if variable in recognized_variables:
 
-                            print ('variable: ', variable)
+                            #print ('variable: ', variable)
                             ice_sheet = path_split[-4]
                             #print ('ice_sheet: ', ice_sheet)
                             modeling_group = path_split[-3]
@@ -79,14 +85,17 @@ def main(argv):
                             #print ('experiment: ', experiment)
                             experiment_split = experiment.split('_')
                             if str.isnumeric(experiment_split[-1]):
-                                # Remove the resolution from the model anem
+                                # Remove the resolution from the model name
                                 experiment = '_'.join(experiment_split[:-1])
                             #print ('experiment ', experiment)
-                            ddi_name = '_'.join([variable, ice_sheet, modeling_group, model, experiment])
+                            ddi_name = '_'.join([ice_sheet, modeling_group, model, experiment, variable])
                             #print ('ddi_name: ', ddi_name)
     
                             #'''
-                            ds = xr.open_dataset(os.path.join(path,file))
+                            # By default, xarray decodes the time values and in this case,
+                            # the units and calendar attributes are consumed into the returned time values
+                            ds = xr.open_dataset(os.path.join(path,file), decode_times=False)
+                            
                             #print (type(ds)) #<class 'xarray.core.dataset.Dataset'>
                             #print ('type(ds.values()): ', type(ds.values())) #c<lass 'collections.abc.ValuesView'>
                             #print ('ds.values(): ', ds.values())
@@ -95,7 +104,24 @@ def main(argv):
                             #print ('coords: ', coords)
                             
                             if 'time' in coords:
-                                
+                            
+                                #print (list(ds.keys()))
+                                #print (list(ds.coords))
+                                #print ("ds['time'].attrs: ", ds['time'].attrs)
+                                units = ds['time'].attrs['units']
+                                #print ('units: ', units)
+                                calendar = ds['time'].attrs['calendar']
+                                #print ('calendar: ', calendar)
+
+                                ds = xr.open_dataset(os.path.join(path,file))
+                            
+                                #print (type(ds)) #<class 'xarray.core.dataset.Dataset'>
+                                #print ('type(ds.values()): ', type(ds.values())) #c<lass 'collections.abc.ValuesView'>
+                                #print ('ds.values(): ', ds.values())
+                                coords = list(ds.coords)
+                                #print ('type(coords): ', type(coords))
+                                #print ('coords: ', coords)
+
                                 time = ds['time'].values
                                 #print ('type(time): ', type(time))
                                 #print ('type(time[0]): ', type(time[0]))
@@ -121,6 +147,10 @@ def main(argv):
                                 #end_exp  = max(ds['time']).values.astype("datetime64[D]")
                                 end_exp  = maxtime.astype("datetime64[D]")
                                 avgyear = 365        # pedants definition of a year length with leap years
+                                calendar_split = calendar.split('_')
+                                if len(calendar_split) == 2 and calendar_split[1] == 'day':
+                                   avgyear = int(calendar_split[0])
+                                #print ('avgyear: ', avgyear)
                                 duration_days = (end_exp - start_exp)
                                 duration_years =  duration_days.astype('timedelta64[Y]')/np.timedelta64(1,'Y')
                                 #print ('duration days: ', duration_days)
@@ -151,9 +181,9 @@ def main(argv):
                                         start_exp = np.datetime_as_string(start_exp)
                                         end_exp = np.datetime_as_string(end_exp)
                                         
-                                        FH1.write ('{0} experiment: {1} iterations: {2} start exp: {3} end exp: {4} time_step: {5} duration years: {6}\n'.format(ddi_name, experiment, iterations, start_exp, end_exp, time_step, duration_years))
                                         # Dictionary item
-                                        ddi = {'experiment': experiment, 'iterations': str(iterations), 'start exp': start_exp, 'end exp':  end_exp, 'time step': str(time_step), 'duration years': str(duration_years)}
+                                        table.append([modeling_group, model, experiment, variable, iterations, units, calendar, avgyear, start_exp, end_exp, time_step, duration_years])
+                                        ddi = {'experiment': experiment, 'iterations': str(iterations), 'units': units, 'calendar': calendar, 'avgyear': avgyear, 'start exp': start_exp, 'end exp':  end_exp, 'time step': str(time_step), 'duration years': str(duration_years)}
                                         #print ('ddi: ', ddi)
                                         netcdf_dict[ddi_name] = ddi
                                     else:
@@ -177,8 +207,15 @@ def main(argv):
                 print ('WARNING %s is not a dir or file' %file)
                 break
                     
-    get_dir_ls(model_path)
+    get_dir_ls(modeling_group_path)
+    
+    tabulated_table = tabulate(table, headers='firstrow', tablefmt='grid')
+    #print (tabulated_table)
+    FH1.write(tabulated_table)
+    FH1.write('\n')
+
     FH1.close()
+    
     #print ('type(netcdf_dict): ', type(netcdf_dict))
     #print ('netcdf_dict: ', netcdf_dict)
     with open(netcdf_dict_json_file, 'w') as outfile:

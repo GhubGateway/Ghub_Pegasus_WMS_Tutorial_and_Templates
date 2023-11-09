@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash -l
 
 commandError=0
 ERROR_EXIT_CODE=1
@@ -21,22 +21,14 @@ if [ ${commandError} -eq 1 ] ; then
    exit ${ERROR_EXIT_CODE}
 fi
 
-# Load python module
-. /util/common/Lmod/lmod/lmod/init/sh
-# For initial testing only
-# old CCR env, vortex.ccr.buffalo.edu:
+# Activate the vortex venv
 module load python/py38-anaconda-2021.05
-# new CCR env, vortex-future.ccr.buffalo.edu:
-#module load anaconda3/2022.05
+# Activate the vortex-future env
+# module load gcc/11.2.0 openmpi/4.1.1 scipy-bundle
+source /projects/grid/ghub/Tools/software/2023.01/python/venvs/ghubex1/bin/activate
 which python
 
-if ! [ -d ./packages] ; then
-    # Notes:
-    # pip dependency conflicts occur but the netcdf4 and xarray packages successfully install.
-    # netcdf4 is required and provides a backend for xarray.
-    python -m pip install --target=./packages netcdf4
-    python -m pip install --target=./packages xarray
-fi
 python "$@"
 
+deactivate
 exit 0

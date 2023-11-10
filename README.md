@@ -1,6 +1,6 @@
 ## Pegasus WMS Workflow Python Example
 
-- Demonstrates hosting a GitHub tool on the Ghub Science Gateway and running a Ghub Pegasus Workflow Management System (WMS) Python script workflow on the University at Buffalo (UB)'s Center For Computational Research (CCR)'s generally accessible high performance compute cluster, UB-HPC.
+- Demonstrates hosting a GitHub tool on the Ghub Science Gateway and running a Ghub Pegasus Workflow Management System (WMS) Python scripts workflow on the University at Buffalo (UB)'s Center For Computational Research (CCR)'s generally accessible high performance compute cluster, UB-HPC.
 - See https://theghub.org for more information on the Ghub Science Gateway.<br /> 
 - See https://www.buffalo.edu/ccr.html for more information on CCR.<br />
 - See https://pegasus.isi.edu/documentation/index.html for more information on the Pegasus WMS.<br /> 
@@ -33,7 +33,7 @@ Note: when a new tool is created you will receive an email with a link to the to
 
 #### Host GIT repository on Github, Gitlab
 
-Follow the instructions on the https://theghub.org/tools/create web page. Select the Repository Host, Host GIT repository on Github, Gitlab. Select the Publishing Option, Jupyter Notebook.   Enter the name of your tool, for example, ghubex1.
+Follow the instructions on the https://theghub.org/tools/create web page. Select the Repository Host, Host GIT repository on Github, Gitlab. Select the Publishing Option, Jupyter Notebook. Enter the name of your tool, for example, ghubex1.
 
 #### Host subversion repository on HUB
 

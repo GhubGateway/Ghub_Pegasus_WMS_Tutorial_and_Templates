@@ -98,11 +98,10 @@ class Wrapper():
             # Add job(s) to the workflow
 
             modeling_groups_list = list(self.modeling_groups.split(','))
-            print ('modeling_groups_list: ', modeling_groups_list)
             #print ('type(self.modeling_groups_list): ', type(modeling_groups_list))
             #print('len(modeling_groups_list): ', len(modeling_groups_list))
+            print ('modeling_groups_list: ', modeling_groups_list)
 
-            
             file_basename_list = []
             get_netcdf_info_job_list = []
 

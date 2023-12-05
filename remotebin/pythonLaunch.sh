@@ -22,9 +22,9 @@ if [ ${commandError} -eq 1 ] ; then
 fi
 
 # Activate the vortex venv
-module load python/py38-anaconda-2021.05
+#module load python/py38-anaconda-2021.05
 # Activate the vortex-future env
-# module load gcc/11.2.0 openmpi/4.1.1 scipy-bundle
+module load gcc/11.2.0 openmpi/4.1.1 scipy-bundle
 source /projects/grid/ghub/Tools/software/2023.01/python/venvs/ghubex1/bin/activate
 which python
 

@@ -1,6 +1,6 @@
 #----------------------------------------------------------------------------------------------------------------------
-# Component of: ghub_exercise1 (github.com)
-# Called from: Invoked as a thread from ghub_exercise1.ipynb
+# Component of: Ghub_Pegasus_WMS_Python_Example (github.com)
+# Called from: pythonLaunch.sh
 # Purpose: Run a Pegasus workflow via the HUBzero hublib.cmd interface
 # Author: Renette Jones-Ivey
 # Date: July 2023
@@ -40,7 +40,7 @@ def main(argv):
     FH1.write('Ice sheet folder: {0}\n'.format(ice_sheet_folder))
     FH1.write('Ice sheet description: {0}\n\n'.format(ice_sheet_description))
     
-    table = [['Group', 'Experiment', 'Iterations', 'Units', 'Calendar', 'Avgyear', 'Start', 'End', 'Time Step', 'Duration Years']]
+    table = [['Group', 'Experiment', 'Dims', 'Resolution', 'Units', 'Calendar', 'Start', 'End', 'Time Step', 'Years']]
     
     for i in range(len(modeling_groups_list)):
 
@@ -58,80 +58,92 @@ def main(argv):
        
         if os.path.exists(file_name):
             
-            FH2 = open (file_name , 'r')
-            netcdf_dict = json.loads(FH2.read())
-            #print ('type(netcdf_dict): ', type(netcdf_dict))
-            #print ('netcdf_dict: ', netcdf_dict)
-    
-            experiments = [value["experiment"] for value in netcdf_dict.values()]
-            #print (type(experiments))
-            #print (experiments)
-            experiments = np.unique(np.array(experiments))
-            #print (type(experiments))
-            #print ('experiments: ', experiments)
-            #print (type(experiments[0]))
-            #print (experiments[0])
-    
-            for j in range(len(experiments)):
-                
-                new_experiment = True
-                
-                experiment = experiments[j]
-                
-                #table.append(['', experiment])
-                
-                #experiments__ = [value['experiment'] for key, value in netcdf_dict.items() if value['experiment'] == experiment]
-                #experiments_.extend(experiments__)
-                iterations = [value['iterations'] for key, value in netcdf_dict.items() if value['experiment'] == experiment]
-                #iterations_.extend(iterations)
-                units = [value['units'] for key, value in netcdf_dict.items() if value['experiment'] == experiment]
-                #units_.extend(units)
-                calendar = [value['calendar'] for key, value in netcdf_dict.items() if value['experiment'] == experiment]
-                #calendar_.extend(calendar)
-                avgyear = [value['avgyear'] for key, value in netcdf_dict.items() if value['experiment'] == experiment]
-                #avgyear_.extend(avgyear)
-                start_exps = [value['start exp'] for key, value in netcdf_dict.items() if value['experiment'] == experiment]
-                #start_exps_.extend(start_exps)
-                end_exps = [value['end exp'] for key, value in netcdf_dict.items() if value['experiment'] == experiment]
-                #end_exps_.extend(end_exps)
-                time_steps= [value['time step'] for key, value in netcdf_dict.items() if value['experiment'] == experiment]
-                #time_steps_.extend(time_steps)
-                duration_years = [value['duration years'] for key, value in netcdf_dict.items() if value['experiment'] == experiment]
-                #duration_years_.extend(duration_years)
-                
-                iterations = np.array(iterations)
-                start_exps = np.array(start_exps)
-                end_exps = np.array(end_exps)
-                time_steps = np.array(time_steps)
-                duration_years = np.array(duration_years)
-                combined = np.column_stack([iterations, units, calendar, avgyear, start_exps, end_exps, time_steps, duration_years])
-                unique_combined = np.unique(combined, axis=0)
-                #print ('unique_combined.shape: ', unique_combined.shape)
-                #print ('unique_combined: ', unique_combined)
-                #table.append(' ')
-                for k in range(unique_combined.shape[0]):
-                    table_entry = []
-                    if (new_group):
-                        table_entry.append(file_basename)
-                        new_group = False
-                    else:
-                        table_entry.append('')
-                    if (new_experiment):
-                        table_entry.append(experiment)
-                        new_experiment = False
-                    else:
-                        table_entry.append('')
-                    for l in range(unique_combined.shape[1]):
-                        table_entry.append(unique_combined[k,l])
-                    #print (table_entry)
-                    table.append(table_entry)
-                    #unique_combined_string = unique_combined_string + str(unique_combined[i,:])
-                #print ('type(unique_combined_string): ', type(unique_combined_string))
-                #print ('unique_combined_string: ', unique_combined_string)
-                #FH1.write('experiment: {0: <14}: {1}\n'.format(experiment, unique_combined_string))
-                
-        else:
+            try:
             
+                FH2 = open (file_name , 'r')
+                netcdf_dict = json.loads(FH2.read())
+                print ('type(netcdf_dict): ', type(netcdf_dict))
+                #print ('netcdf_dict: ', netcdf_dict)
+        
+                experiments = [value["experiment"] for value in netcdf_dict.values()]
+                #print (type(experiments))
+                #print (experiments)
+                experiments = np.unique(np.array(experiments))
+                #print ('type(experiments): ', type(experiments)) #<class 'list'>
+                #print ('experiments: ', experiments)
+                #print (type(experiments[0]))
+                #print (experiments[0])
+        
+                for j in range(len(experiments)):
+                    
+                    new_experiment = True
+                    
+                    experiment = experiments[j]
+                    
+                    # Reference: https://docs.xarray.dev/en/stable/user-guide/data-structures.html#dataset-contents
+                    # dims is a list of dimension names, if omitted, dimension names are taken from coords.
+                    
+                    keys = [value['keys'] for key, value in netcdf_dict.items() if value['experiment'] == experiment]
+                    #print ('type(keys): ', type(keys))
+                    #print ('keys: ', keys)
+                    keys = np.array(keys)
+                    #print ('keys.shape: ', keys.shape)
+                    dims = [value['dims'] for key, value in netcdf_dict.items() if value['experiment'] == experiment]
+                    dims = np.array(dims)
+                    coords = [value['coords'] for key, value in netcdf_dict.items() if value['experiment'] == experiment]
+                    coords = np.array(coords)
+                    if len(dims) == 0:
+                        if len(coords) == 0:
+                            dims = keys
+                        else:
+                            dims = coords
+                    resolution = [value['resolution'] for key, value in netcdf_dict.items() if value['experiment'] == experiment]
+                    resolution = np.array(resolution)
+                    units = [value['units'] for key, value in netcdf_dict.items() if value['experiment'] == experiment]
+                    units = np.array(units)
+                    calendar = [value['calendar'] for key, value in netcdf_dict.items() if value['experiment'] == experiment]
+                    calendar = np.array(calendar)
+                    start_exps = [value['start exp'] for key, value in netcdf_dict.items() if value['experiment'] == experiment]
+                    start_exps = np.array(start_exps)
+                    end_exps = [value['end exp'] for key, value in netcdf_dict.items() if value['experiment'] == experiment]
+                    end_exps = np.array(end_exps)
+                    time_steps = [value['time step'] for key, value in netcdf_dict.items() if value['experiment'] == experiment]
+                    time_steps = np.array(time_steps)
+                    duration_years = [value['duration years'] for key, value in netcdf_dict.items() if value['experiment'] == experiment]
+                    duration_years = np.array(duration_years)
+                    
+                    combined = np.column_stack([dims, resolution, units, calendar, start_exps, end_exps, time_steps, duration_years])
+                    unique_combined = np.unique(combined, axis=0)
+                    #print ('unique_combined.shape: ', unique_combined.shape)
+                    #print ('unique_combined: ', unique_combined)
+                    #table.append(' ')
+                    
+                    for k in range(unique_combined.shape[0]):
+                        table_entry = []
+                        if (new_group):
+                            table_entry.append(file_basename)
+                            new_group = False
+                        else:
+                            table_entry.append('')
+                        if (new_experiment):
+                            table_entry.append(experiment)
+                            new_experiment = False
+                        else:
+                            table_entry.append('')
+                        for l in range(unique_combined.shape[1]):
+                            table_entry.append(unique_combined[k,l])
+                        #print (table_entry)
+                        table.append(table_entry)
+                        #unique_combined_string = unique_combined_string + str(unique_combined[i,:])
+                    #print ('type(unique_combined_string): ', type(unique_combined_string))
+                    #print ('unique_combined_string: ', unique_combined_string)
+                    #FH1.write('experiment: {0: <14}: {1}\n'.format(experiment, unique_combined_string))
+                    
+            except Exception as e:
+                print ('WARNING %s: exception encountered: %s' %(file_name, str(e)))
+                FH1.write ('WARNING {0}: exception encountered: {1}\n'.format(file_name, str(e)))
+
+        else:
             FH1.write ('WARNING {0}: file not found\n'.format(file_name))
      
     FH1.write('\n')    

@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------------------------------------------------------
 # Class: Wrapper_5.0.1
-# Component of: ghub_exercise1 (github.com)
-# Called from: ghub_exercise1.ipynb
+# Component of: ghubex1 (github.com)
+# Called from: ghubex1.ipynb
 # Purpose: Run a Pegasus WMS 5.0.1 workflow via the HUBzero hublib.cmd interface
 # Author: Renette Jones-Ivey
 # Date: Sept 2023
@@ -68,7 +68,7 @@ class Wrapper():
             tc = TransformationCatalog()
             rc = ReplicaCatalog()
 
-            # Add python launch script to the transformation catalog
+            # Add the python launch script to the transformation catalog. The launch script is run on CCR to run the python scripts.
                 
             tooldir = os.path.dirname(os.path.dirname(os.path.realpath(os.path.abspath(__file__))))
             print ('tooldir: ', tooldir)
@@ -166,7 +166,7 @@ class Wrapper():
             #########################################################
     
             #'''
-            submitcmd = ['submit', '--venue', 'WF-ccr-ghub', 'pegasus-plan', '--dax', 'workflow.yml']
+            submitcmd = ['submit', '--venue', 'WF-vortex-ghub', 'pegasus-plan', '--dax', 'workflow.yml']
             #print ('submitcmd: ', submitcmd)
 
             # submit blocks.

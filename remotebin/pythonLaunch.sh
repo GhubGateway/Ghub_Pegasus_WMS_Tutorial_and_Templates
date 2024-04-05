@@ -21,11 +21,15 @@ if [ ${commandError} -eq 1 ] ; then
    exit ${ERROR_EXIT_CODE}
 fi
 
-# Activate the vortex venv
+tool_alias_name=ghubex1
+build_version=v1
+
+# Activate the Python environment
+
 module load ccrsoft/2023.01
-module load gcc/11.2.0
+module load gcccore/11.2.0
 module load python/3.9.6
-source /projects/grid/ghub/Tools/software/2023.01/python/venvs/ghubex1/bin/activate
+source /projects/grid/ghub/Tools/${tool_alias_name}/${build_version}/software/2023.01/python/venv/bin/activate
 which python
 
 python "$@"

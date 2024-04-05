@@ -1,6 +1,6 @@
 ## Pegasus WMS Workflow Python Example
 
-- Demonstrates hosting a GitHub tool on the Ghub Science Gateway and running a Ghub Pegasus Workflow Management System (WMS) Python scripts workflow on the University at Buffalo (UB)'s Center For Computational Research (CCR)'s generally accessible high performance compute cluster, UB-HPC.
+- Demonstrates hosting a GitHub tool on the Ghub Science Gateway and running a Ghub Pegasus Workflow Management System (WMS) workflow, comprising Python scripts, on the University at Buffalo (UB)'s Center For Computational Research (CCR)'s generally accessible high performance compute cluster, UB-HPC.
 - See https://theghub.org for more information on the Ghub Science Gateway.<br /> 
 - See https://www.buffalo.edu/ccr.html for more information on CCR.<br />
 - See https://pegasus.isi.edu/documentation/index.html for more information on the Pegasus WMS.<br /> 
@@ -17,7 +17,7 @@ This directory contains the PDF file, Ghub_Pegasus_WMS_Workflow_Python_Example.p
 
 #### bin directory
 
-This directory contains the Python scripts to run on CCR's high performance compute cluster.
+This directory contains the submit wrapper script, Wrapper_5_0_1.py, used to plan the Pegasus WMS workflow. This directory also contains the Python scripts to run on CCR's high performance compute cluster.
 
 #### remotebin directory
 
@@ -37,14 +37,15 @@ Note: when a new tool is created you will receive an email with a link to the to
 
 #### Host GIT repository on Github, Gitlab
 
-Follow the instructions on the https://theghub.org/tools/create web page. Select the Repository Host, Host GIT repository on Github, Gitlab. Select the Publishing Option, Jupyter Notebook. Enter the name of your tool, for example, ghubex1.
+Follow the instructions on the https://theghub.org/tools/create web page.  Enter the name of your tool, for this tool, ghubex1 was entered. Select the Repository Host, Host GIT repository on Github, Gitlab. Enter the Git Repository URL, for this tool, https://github.com/GhubGateway/Ghub_Pegasus_WMS_Python_Example was entered. Select the Publishing Option, Jupyter Notebook. 
+
 
 ### Run the Tool on Ghub for Testing after the Tool is installed:
 
 #### Launch the Workspace 10 Tool from the Ghub Dashboard's My Tools component and in a xterm terminal window enter:<br />
 
 ```
-git clone https://github.com/GhubGateway/Ghub_Pegasus_WMS_Python_Example
+git clone https://github.com/GhubGateway/Ghub_Pegasus_WMS_Python_Example ghubex1
 ```
 #### Launch the Jupyter Notebooks (202210) Tool from the Ghub Dashboard's My Tools component:<br />
 

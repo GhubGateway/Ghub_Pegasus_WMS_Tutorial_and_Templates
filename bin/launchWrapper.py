@@ -62,9 +62,9 @@ class Wrapper():
             #########################################################
             # Create the Pegasus WMS workflow
             #########################################################
-            print ('Wrapper_5_0_1...')
+            print ('launchWrapper...')
     
-            wf = Workflow('ghub_exercise1-workflow')
+            wf = Workflow('ghubex1-workflow')
             tc = TransformationCatalog()
             rc = ReplicaCatalog()
 
@@ -200,7 +200,7 @@ class Wrapper():
              
         except Exception as e:
             
-            print ('Wrapper.py Exception: %s\n' %str(e))
+            print ('launchWrapper.py Exception: %s\n' %str(e))
             
         return
 

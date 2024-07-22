@@ -1,9 +1,21 @@
 #!/bin/bash -l
 
+#--------------------------------------------------------------------------------
+# Python_Launch.sh
+# Component of:
+#     https://github.com/GhubGateway/Ghub_Pegasus_WMS_Tutorial_and_Templates and
+#     https://theghub.org/tools/ghubex1
+# Called from: a SLURM script
+# Also see Ghub, https://theghub.org/about
+#--------------------------------------------------------------------------------
+
+# Echo to stdout:
+echo "Python_Launch.sh: $@"
+
 commandError=0
 ERROR_EXIT_CODE=1
 
-# Verify the python files do not contain unallowed system calls
+# Legacy check: Verify the python files do not contain unallowed system calls
 pyFiles=$(ls *.py 2> /dev/null)
 #echo ${pyFiles}
 for pyFile in ${pyFiles} ; do
@@ -21,18 +33,15 @@ if [ ${commandError} -eq 1 ] ; then
    exit ${ERROR_EXIT_CODE}
 fi
 
-tool_alias_name=ghubex1
-build_version=v1
-
-# Activate the Python environment
+start=$(date +%s)
 
 module load ccrsoft/2023.01
 module load gcccore/11.2.0
 module load python/3.9.6
-source /projects/grid/ghub/Tools/${tool_alias_name}/${build_version}/software/2023.01/python/venv/bin/activate
-which python
 
 python "$@"
 
-deactivate
+end=$(date +%s)
+echo "Elapsed Time: $(($end-$start)) seconds"
+
 exit 0

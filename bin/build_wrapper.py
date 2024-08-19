@@ -33,10 +33,10 @@ class BuildWrapper():
         self.user = user
         self.maxwalltime = 30 # minutes
 
-        #'''
+        '''
         print('self.template_index: ', self.template_index)
         print('self.user: ', self.user)
-        #'''
+        '''
 
     def run_workflow(self):
 
@@ -52,7 +52,7 @@ class BuildWrapper():
             ########################################################################
 
             workflow_name = 'ghubex1_%s_build_workflow_%s' %(template, self.user)
-            print ('workflow_name: ', workflow_name)
+            #print ('workflow_name: ', workflow_name)
             wf = Workflow(workflow_name)
             #print ('wf: ', wf)
 
@@ -67,9 +67,9 @@ class BuildWrapper():
             # The build script contains specific instructions for compiling the executables
                 
             tooldir = os.path.dirname(os.path.dirname(os.path.realpath(os.path.abspath(__file__))))
-            print ('tooldir: ', tooldir)
+            #print ('tooldir: ', tooldir)
 
-            build_exec_path =  os.path.join(tooldir, 'remotebin', template, '%s_Launch.sh' %template)
+            build_exec_path =  os.path.join(tooldir, 'remotebin', template, '%s_Build.sh' %template)
             print ("build_exec_path: %s" %build_exec_path)
             
             build_exec = Transformation(

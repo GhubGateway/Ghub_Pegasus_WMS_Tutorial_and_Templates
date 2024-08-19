@@ -15,7 +15,7 @@ echo "Python_Launch.sh: $@"
 commandError=0
 ERROR_EXIT_CODE=1
 
-# Legacy check: Verify the python files do not contain unallowed system calls
+# Ghub legacy check: Verify the python files do not contain unallowed system calls
 pyFiles=$(ls *.py 2> /dev/null)
 #echo ${pyFiles}
 for pyFile in ${pyFiles} ; do

@@ -13,17 +13,15 @@
 program consume_lunch_items
     
     integer,parameter :: MAXSTRLEN=80
-    CHARACTER(LEN=MAXSTRLEN) :: username, line
-
-    call getarg(1, username)
+    CHARACTER(LEN=MAXSTRLEN) :: served_lunch_items
 
     ! f.b contains the served lunch items
 
     open(1, file='f.b', status='old')
     open(2, file='f.c', status='replace')
     
-    read(1,'(A)') line
-    write(2,'(5A)') trim(line), ' Thank you for lunch. Yum Yum!!'
+    read(1,'(A)') served_lunch_items
+    write(2,'(2A)') trim(served_lunch_items), ' Thank you for lunch. Yum Yum!!\n'
 
     close(1)
     close(2)

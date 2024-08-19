@@ -25,7 +25,9 @@ def main(argv):
             os.remove ('f.b')
         if os.path.exists('f.c'):
             os.remove ('f.c')
-            
+        
+        # Launch
+        
         exitStatus = subprocess.call(['./Python_Launch.sh','receive_lunch_items.py',username])
         print ('receive_lunch_items.py exitStatus: %d' %exitStatus)
         

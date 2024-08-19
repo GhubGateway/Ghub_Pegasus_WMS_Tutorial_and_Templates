@@ -3,7 +3,7 @@
 // Component of:
 //    https://github.com/GhubGateway/Ghub_Pegasus_WMS_Tutorial_and_Templates and
 //     https://theghub.org/tools/ghubex1
-// Called from: C++_Launch.sh
+// Called from: CPP_Launch.sh
 // Also see Ghub, https://theghub.org/about
 //--------------------------------------------------------------------------------
 
@@ -15,9 +15,6 @@
 #include <string>
 
 int main(int argc, char *argv[]) {
-    if (argc < 2) {
-        return 1; // Not enough arguments
-    }
 
     std::string username = argv[1];
 
@@ -26,9 +23,10 @@ int main(int argc, char *argv[]) {
     std::ifstream fp1("f.a");
     std::ofstream fp2("f.b");
 
-    std::string lunchItems;
-    std::getline(fp1, lunchItems);
-    fp2 << "Hello " << username << "! Received lunch items: " << lunchItems << ".\n";
+    std::string lunch_items;
+    if (std::getline(fp1, lunch_items)) {
+        fp2 << "Hello " << username << "! Received lunch items: " << lunch_items << ".";
+    }
 
     fp1.close();
     fp2.close();

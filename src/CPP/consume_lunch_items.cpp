@@ -21,9 +21,9 @@ int main(int argc, char *argv[]) {
     std::ifstream fp1("f.b");
     std::ofstream fp2("f.c");
 
-    std::string line;
-    if (std::getline(fp1, line)) {
-        fp2 << line << "Thank you for lunch. Yum Yum!!\n";
+    std::string served_lunch_items;
+    if (std::getline(fp1, served_lunch_items)) {
+        fp2 << served_lunch_items << " Thank you for lunch. Yum Yum!!\n";
     }
 
     fp1.close();

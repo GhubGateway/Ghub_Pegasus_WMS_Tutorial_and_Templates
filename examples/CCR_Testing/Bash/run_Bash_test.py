@@ -25,7 +25,9 @@ def main(argv):
             os.remove ('f.b')
         if os.path.exists('f.c'):
             os.remove ('f.c')
-            
+        
+        # Launch
+        
         exitStatus = subprocess.call(['./Bash_Launch.sh','receive_lunch_items.sh',username])
         print ('receive_lunch_items.sh exitStatus: %d' %exitStatus)
         

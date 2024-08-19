@@ -34,11 +34,11 @@ class LaunchWrapper():
         self.lunch_items = lunch_items
         self.maxwalltime = 30 # minutes
 
-        #'''
+        '''
         print('self.template_index: ', self.template_index)
         print('self.user: ', self.user)
         print('self.lunch_items: ', self.lunch_items)
-        #'''
+        '''
 
     def run_workflow(self):
 
@@ -61,7 +61,7 @@ class LaunchWrapper():
             ########################################################################
 
             workflow_name = 'ghubex1_%s_launch_workflow_%s' %(template, self.user)
-            print ('workflow_name: ', workflow_name)
+            #print ('workflow_name: ', workflow_name)
             wf = Workflow(workflow_name)
             #print ('wf: ', wf)
     
@@ -75,7 +75,7 @@ class LaunchWrapper():
             # Add the launch script to the Transformation Catalog. The launch script is run on CCR via SLURM.
                 
             tooldir = os.path.dirname(os.path.dirname(os.path.realpath(os.path.abspath(__file__))))
-            print ('tooldir: ', tooldir)
+            #print ('tooldir: ', tooldir)
             
             launch_exec_path =  os.path.join(tooldir, 'remotebin', template, '%s_Launch.sh' %template)
             print ("launch_exec_path: %s" %launch_exec_path)
@@ -99,7 +99,7 @@ class LaunchWrapper():
             
             fp = open('f.a','w')
             if fp:
-               fp.write('{0}'.format(self.lunch_items.rstrip()))
+               fp.write('{0}\n'.format(self.lunch_items.rstrip()))
                fp.close()
             else:
                print ("Could not create the f.a input file.\n")

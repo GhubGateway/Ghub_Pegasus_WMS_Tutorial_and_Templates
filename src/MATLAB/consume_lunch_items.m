@@ -17,7 +17,8 @@ function main()
     fp1 = fopen ('f.b', 'r');
     fp2 = fopen ('f.c', 'w');
 
-    fprintf(fp2, '%s\nThank you for lunch. Yum Yum!!\n', fgetl(fp1));
+    served_lunch_items = fgetl(fp1);
+    fprintf(fp2, '%s Thank you for lunch. Yum Yum!!\n', served_lunch_items);
 
     fclose (fp1);
     fclose (fp2);

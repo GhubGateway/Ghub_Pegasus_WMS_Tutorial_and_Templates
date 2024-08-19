@@ -1,12 +1,12 @@
 #######################################################
 # For module testing on CCR.
-# Run as python run_C++_test.py username
+# Run as python run_CPP_test.py username
 #
 # Requires input file f.a,
-# src/C++/receive_lunch_items.cpp,
-# src/C++/consume_lunch_items.cpp,
-# remotebin/C++/C++_Build.sh (mode 755) and
-# remotebin/C++/C++_Launch.sh (mode 755) files.
+# src/CPP/receive_lunch_items.cpp,
+# src/CPP/consume_lunch_items.cpp,
+# remotebin/CPP/CPP_Build.sh (mode 755) and
+# remotebin/CPP/CPP_Launch.sh (mode 755) files.
 #######################################################
 
 import sys
@@ -29,15 +29,15 @@ def main(argv):
             
         # Build
         
-        exitStatus = subprocess.call(['./C++_Build.sh'])
+        exitStatus = subprocess.call(['./CPP_Build.sh'])
         print ('Build exitStatus: %d' %exitStatus)
         
         # Launch
         
-        exitStatus = subprocess.call(['./C++_Launch.sh','./receive_lunch_items',username])
+        exitStatus = subprocess.call(['./CPP_Launch.sh','./receive_lunch_items',username])
         print ('receive_lunch_items exitStatus: %d' %exitStatus)
         
-        exitStatus = subprocess.call(['./C++_Launch.sh','./consume_lunch_items'])
+        exitStatus = subprocess.call(['./CPP_Launch.sh','./consume_lunch_items'])
         print ('consume_lunch_items exitStatus: %d' %exitStatus)
         
     else:

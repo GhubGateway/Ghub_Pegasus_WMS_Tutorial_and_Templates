@@ -10,8 +10,6 @@
 # In the Pegasus WMS YAML file,
 # this job is specified to have the f.a input file and the f.b output file
 
-args <- commandArgs(trailingOnly = TRUE)
-
 main <- function(argv) {
   
   username <- argv[1]
@@ -21,7 +19,8 @@ main <- function(argv) {
   fp1 <- file('f.a', 'r')
   fp2 <- file('f.b', 'w')
   
-  writeLines(sprintf('Hello %s! Received lunch items: %s.\n', username, readLines(fp1, n = 1)), fp2)
+  lunch_items <- readLines(fp1, n=1)
+  writeLines(sprintf('Hello %s! Received lunch items: %s.', username, lunch_items), fp2)
   
   close(fp1)
   close(fp2)
@@ -29,4 +28,5 @@ main <- function(argv) {
   # f.b contains the served lunch items
 }
 
-main(args)
+# Execute main function
+main(commandArgs(trailingOnly = TRUE))

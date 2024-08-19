@@ -16,8 +16,9 @@ function main(username)
 
     fp1 = fopen ('f.a', 'r');
     fp2 = fopen ('f.b', 'w');
-
-    fprintf (fp2, 'Hello %s! Received lunch items: %s.\n', username,  fgetl(fp1));
+ 
+    lunch_items = fgetl(fp1);
+    fprintf (fp2, 'Hello %s! Received lunch items: %s.', username, lunch_items);
 
     fclose (fp1);
     fclose (fp2);

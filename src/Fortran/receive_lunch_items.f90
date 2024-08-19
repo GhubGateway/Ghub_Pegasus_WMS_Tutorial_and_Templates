@@ -13,7 +13,7 @@
 program receive_lunch_items
     
     integer,parameter :: MAXSTRLEN=80
-    CHARACTER(LEN=MAXSTRLEN) :: username, line
+    CHARACTER(LEN=MAXSTRLEN) :: username, lunch_items
 
     call getarg(1, username)
 
@@ -22,8 +22,8 @@ program receive_lunch_items
     open(1, file='f.a', status='old')
     open(2, file='f.b', status='replace')
     
-    read(1,'(A)') line
-    write(2,'(5A)') 'Hello ', trim(username), '! Received lunch items: ', trim(line), '.'
+    read(1,'(A)') lunch_items
+    write(2,'(5A)') 'Hello ', trim(username), '! Received lunch items: ', trim(lunch_items), '.'
 
     close(1)
     close(2)

@@ -167,9 +167,7 @@ class LaunchWrapper():
             # Submit the Pegasus Workflow plan
             ########################################################################
 
-            # *** Disabled pending resolution of an open Ghub ticket ***
-            return 1
-            '''
+            #'''
             submitcmd = ['submit', '--venue', 'WF-vortex-ghub', 'pegasus-plan', '--dax', 'launch_workflow.yml']
             #print ('submitcmd: ', submitcmd)
 
@@ -200,7 +198,7 @@ class LaunchWrapper():
                         # In case there is more than one stderr file
                         break
                 return exitCode
-            '''
+            #'''
              
         except Exception as e:
             

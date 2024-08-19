@@ -1,7 +1,7 @@
 #!/bin/bash -l
 
 #--------------------------------------------------------------------------------
-# Bash_Launch.sh
+# C++_Launch.sh
 # Component of:
 #     https://github.com/GhubGateway/Ghub_Pegasus_WMS_Tutorial_and_Templates and
 #     https://theghub.org/tools/ghubex1
@@ -10,13 +10,14 @@
 #--------------------------------------------------------------------------------
 
 # Echo to stdout:
-echo "Bash_Launch.sh: $@"
+echo "C++_Launch.sh: $@"
 
 start=$(date +%s)
 
 module load ccrsoft/2023.01
+module load gcc/11.2.0
 
-bash "$@"
+eval "$@"
 
 end=$(date +%s)
 echo "Elapsed Time: $(($end-$start)) seconds"

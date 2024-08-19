@@ -1,12 +1,12 @@
 #######################################################
 # For module testing on CCR.
-# Run as python run_MATLAB_test.py username
+# Run as python run_Fortran_test.py username
 #
 # Requires input file f.a,
-# src/MATLAB/receive_lunch_items.m,
-# src/MATLAB/consume_lunch_items.m,
-# remotebin/MATLAB/MATLAB_Build.sh (mode 755) and
-# remotebin/MATLAB/MATLAB_Launch.sh (mode 755) files.
+# src/MATLAB/receive_lunch_items.f90,
+# src/MATLAB/consume_lunch_items.f90,
+# remotebin/Fortran/Fortran_Build.sh (mode 755) and
+# remotebin/Fortran/Fortran_Launch.sh (mode 755) files.
 #######################################################
 
 import sys
@@ -29,15 +29,15 @@ def main(argv):
             
         # Build
         
-        exitStatus = subprocess.call(['./MATLAB_Build.sh'])
+        exitStatus = subprocess.call(['./Fortran_Build.sh'])
         print ('Build exitStatus: %d' %exitStatus)
         
         # Launch
         
-        exitStatus = subprocess.call(['./MATLAB_Launch.sh','./receive_lunch_items',username])
+        exitStatus = subprocess.call(['./Fortran_Launch.sh','./receive_lunch_items',username])
         print ('receive_lunch_items exitStatus: %d' %exitStatus)
         
-        exitStatus = subprocess.call(['./MATLAB_Launch.sh','./consume_lunch_items'])
+        exitStatus = subprocess.call(['./Fortran_Launch.sh','./consume_lunch_items'])
         print ('consume_lunch_items exitStatus: %d' %exitStatus)
         
     else:

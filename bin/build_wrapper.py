@@ -148,9 +148,7 @@ class BuildWrapper():
             # Submit the Pegasus Workflow Plan
             #########################################################
     
-            # *** Disabled pending resolution of an open Ghub ticket ***
-            return 1
-            '''
+            #'''
             submitcmd = ['submit', '--venue', 'WF-vortex-ghub', 'pegasus-plan', '--dax', 'build_workflow.yml']
             #print ('submitcmd: ', submitcmd)
 
@@ -181,7 +179,7 @@ class BuildWrapper():
                         # In case there is more than one stderr file
                         break
                 return exitCode
-            '''
+            #'''
              
         except Exception as e:
             

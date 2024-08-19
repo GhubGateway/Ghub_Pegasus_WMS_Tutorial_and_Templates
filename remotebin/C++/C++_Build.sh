@@ -1,7 +1,7 @@
 #!/bin/bash -l
 
 #--------------------------------------------------------------------------------
-# Bash_Launch.sh
+# C++_Build.sh
 # Component of:
 #     https://github.com/GhubGateway/Ghub_Pegasus_WMS_Tutorial_and_Templates and
 #     https://theghub.org/tools/ghubex1
@@ -10,13 +10,23 @@
 #--------------------------------------------------------------------------------
 
 # Echo to stdout:
-echo "Bash_Launch.sh: $@"
+echo "C++_Build.sh"
 
 start=$(date +%s)
 
 module load ccrsoft/2023.01
+module load gcc/11.2.0
 
-bash "$@"
+# gcc creates C++ executables to run on a platform corresponding to the platform on which they are generated.
+
+gcc=$(which gcc)
+echo 'gcc: '${gcc}
+
+# -v: verbose
+# -o: output file
+
+${gcc} -lstdc++ -v ./receive_lunch_items.cpp -o receive_lunch_items
+${gcc} -lstdc++ -v ./consume_lunch_items.cpp -o consume_lunch_items
 
 end=$(date +%s)
 echo "Elapsed Time: $(($end-$start)) seconds"

@@ -44,4 +44,4 @@ python "$@"
 end=$(date +%s)
 echo "Elapsed Time: $(($end-$start)) seconds"
 
-exit 0
+:

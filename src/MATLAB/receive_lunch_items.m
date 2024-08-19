@@ -7,7 +7,7 @@
 % Also see Ghub, https://theghub.org/about
 %--------------------------------------------------------------------------------
 
-% In the YAML file,
+% In the Pegasus WMS YAML file,
 % this job is specified to have the f.a input file and the f.b output file
 
 function main(username)

@@ -1,12 +1,11 @@
 #######################################################
 # For module testing on CCR.
-# Run as python run_MATLAB_test.py username
+# Run as python run_R_test.py username
 #
 # Requires input file f.a,
-# src/MATLAB/receive_lunch_items.m,
-# src/MATLAB/consume_lunch_items.m,
-# remotebin/MATLAB/MATLAB_Build.sh (mode 755) and
-# remotebin/MATLAB/MATLAB_Launch.sh (mode 755) files.
+# src/R/receive_lunch_items.r,
+# src/R/consume_lunch_items.r and
+# remotebin/R/R_Launch.sh (mode 755) files.
 #######################################################
 
 import sys
@@ -27,18 +26,11 @@ def main(argv):
         if os.path.exists('f.c'):
             os.remove ('f.c')
             
-        # Build
+        exitStatus = subprocess.call(['./R_Launch.sh','receive_lunch_items.r',username])
+        print ('receive_lunch_items.sh exitStatus: %d' %exitStatus)
         
-        exitStatus = subprocess.call(['./MATLAB_Build.sh'])
-        print ('Build exitStatus: %d' %exitStatus)
-        
-        # Launch
-        
-        exitStatus = subprocess.call(['./MATLAB_Launch.sh','./receive_lunch_items',username])
-        print ('receive_lunch_items exitStatus: %d' %exitStatus)
-        
-        exitStatus = subprocess.call(['./MATLAB_Launch.sh','./consume_lunch_items'])
-        print ('consume_lunch_items exitStatus: %d' %exitStatus)
+        exitStatus = subprocess.call(['./R_Launch.sh','consume_lunch_items.r'])
+        print ('consume_lunch_items.sh exitStatus: %d' %exitStatus)
         
     else:
     

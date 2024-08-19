@@ -1,5 +1,4 @@
 #--------------------------------------------------------------------------------
-# consume_lunch_items.py
 # Component of:
 #     https://github.com/GhubGateway/Ghub_Pegasus_WMS_Tutorial_and_Templates and
 #     https://theghub.org/tools/ghubex1
@@ -9,24 +8,24 @@
 
 # In the Pegasus WMS YAML file,
 # this job is specified to have the f.b input file and the f.c output file
+# In the Pegasus WMS YAML file,
+# this job is specified to have the f.b input file and the f.c output file
 
-import sys
-
-def main(argv):
+main <- function(argv) {
     
     # f.b contains the served lunch items
 
-    fp1 = open ('f.b', 'r')
-    fp2 = open ('f.c', 'w')
+    fp1 <- file('f.b', 'r')
+    fp2 <- file('f.c', 'w')
 
-    served_lunch_items = fp1.readline()
-    fp2.write('%s Thank you for lunch. Yum Yum!!\n' %served_lunch_items)
+    writeLines(paste0(readLines(fp1, n = 1), "Thank you for lunch. Yum Yum!!"), fp2)
     
-    fp1.close()
-    fp2.close()
+    close(fp1)
+    close(fp2)
 
     # f.c contains the thank you note
+}
 
-if __name__ == "__main__":
+# Execute main function
+main(commandArgs(trailingOnly = TRUE))
 
-    main(sys.argv)

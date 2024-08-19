@@ -7,7 +7,7 @@
 # Also see Ghub, https://theghub.org/about
 #--------------------------------------------------------------------------------
 
-# In the YAML file,
+# In the Pegasus WMS YAML file,
 # this job is specified to have the f.a input file and the f.b output file
 
 import sys
@@ -21,7 +21,8 @@ def main(argv):
     fp1 = open ('f.a', 'r')
     fp2 = open ('f.b', 'w')
     
-    fp2.write ('Hello %s! Received lunch items: %s.\n' %(username, fp1.readline()))
+    lunch_items = fp1.readline()
+    fp2.write ('Hello %s! Received lunch items: %s.' %(username, lunch_items))
     
     fp1.close()
     fp2.close()

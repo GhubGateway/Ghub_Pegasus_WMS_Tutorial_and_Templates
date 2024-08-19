@@ -9,7 +9,7 @@
 # Also see Ghub, https://theghub.org/about
 #--------------------------------------------------------------------------------
 
-# In the YAML file,
+# In the Pegasus WMS YAML file,
 # this job is specified to have the f.b input file and the f.c output file
 
 # f.b contains the served lunch items

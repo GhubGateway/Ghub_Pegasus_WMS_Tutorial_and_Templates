@@ -22,12 +22,16 @@ module load matlab/2021b
 mcc=$(which mcc)
 echo 'mcc: '${mcc}
 
-${mcc} -v -m ./receive_lunch_items.m -o receive_lunch_items
+# -m: generate a standalone application
+# -v: verbose
+# -o: output file
+
+${mcc} -m -v ./receive_lunch_items.m -o receive_lunch_items
 chmod 755 receive_lunch_items
-${mcc} -v -m ./consume_lunch_items.m -o consume_lunch_items
+${mcc} -m -v ./consume_lunch_items.m -o consume_lunch_items
 chmod 755 consume_lunch_items
 
 end=$(date +%s)
 echo "Elapsed Time: $(($end-$start)) seconds"
 
-exit 0
+:

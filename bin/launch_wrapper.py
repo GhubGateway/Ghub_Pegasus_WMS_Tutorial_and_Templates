@@ -97,13 +97,13 @@ class LaunchWrapper():
 
             # Create the f.a input file for the first workflow job
             
-            fp = open('f.a','w')
+            fp = open(os.path.join(tooldir, 'f.a'),'w')
             if fp:
                fp.write('{0}\n'.format(self.lunch_items.rstrip()))
                fp.close()
             else:
                print ("Could not create the f.a input file.\n")
-               return
+               return 1
 
             rc = ReplicaCatalog()
             wf.add_replica_catalog(rc)

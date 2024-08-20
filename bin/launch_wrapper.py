@@ -73,9 +73,12 @@ class LaunchWrapper():
             wf.add_transformation_catalog(tc)
             
             # Add the launch script to the Transformation Catalog. The launch script is run on CCR via SLURM.
-                
+             
+            # For the installed version of the tool, this resolves to /apps/ghubex1/r<revision number>
             tooldir = os.path.dirname(os.path.dirname(os.path.realpath(os.path.abspath(__file__))))
-            #print ('tooldir: ', tooldir)
+            print ('tooldir: ', tooldir)
+            workingdir = os.getcwd()
+            print ('workingdir: ', workingdir)
             
             launch_exec_path =  os.path.join(tooldir, 'remotebin', template, '%s_Launch.sh' %template)
             print ("launch_exec_path: %s" %launch_exec_path)
@@ -97,12 +100,14 @@ class LaunchWrapper():
 
             # Create the f.a input file for the first workflow job
             
-            fp = open(os.path.join(tooldir, 'f.a'),'w')
+            f_a_filepath = os.path.join(workingdir, 'f.a')
+            #print ('f_a_filepath: %s' %f_a_filepath)
+            fp = open(f_a_filepath,'w')
             if fp:
                fp.write('{0}\n'.format(self.lunch_items.rstrip()))
                fp.close()
             else:
-               print ("Could not create the f.a input file.\n")
+               print ('Could not create the %s input file.\n' %f_a_filepath)
                return 1
 
             rc = ReplicaCatalog()
@@ -114,7 +119,7 @@ class LaunchWrapper():
             
             rc.add_replica('local', File(job1), os.path.join(tooldir, jobs_dir, job1))
             rc.add_replica('local', File(job2), os.path.join(tooldir, jobs_dir, job2))
-            rc.add_replica('local', File('f.a'), os.path.join(tooldir, 'f.a'))
+            rc.add_replica('local', File('f.a'), f_a_filepath)
 
             ########################################################################
             # Add jobs to the workflow
@@ -182,13 +187,13 @@ class LaunchWrapper():
             
                 # In this case, look for .stderr and .stdout files in the work directory
                 print ('Wrapper.py: hublib.cmd.command.executeCommand(%s) returned with a non zero exit code = %d\n' %(submitcmd, exitCode))
-                files = os.listdir(tooldir)
+                files = os.listdir(workingdir)
                 files.sort(key=lambda x: os.path.getmtime(x))
                 for file in files:
                     # Get the numbered Pegasus work directory
                     #print ('type(file): ', type(file)) #<class 'str'>
                     if os.path.isfile(file) and file[0].isdigit() and file.endswith('.stderr'):
-                        print ('stderr file: %s\n' %os.path.join(tooldir, file))
+                        print ('stderr file: %s\n' %os.path.join(workingdir, file))
                         print ('For the ghubex1 tool, the following errors were returned while running a Pegasus workflow: ')
                         with open(file) as f:
                             lines = f.readlines()

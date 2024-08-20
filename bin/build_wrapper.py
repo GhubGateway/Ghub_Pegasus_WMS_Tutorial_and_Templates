@@ -66,8 +66,11 @@ class BuildWrapper():
             # Add the build script to the Transformation Catalog. The build script is run on CCR via SLURM.
             # The build script contains specific instructions for compiling the executables
                 
+            # For the installed version of the tool, this resolves to /apps/ghubex1/r<revision number>
             tooldir = os.path.dirname(os.path.dirname(os.path.realpath(os.path.abspath(__file__))))
-            #print ('tooldir: ', tooldir)
+            print ('tooldir: ', tooldir)
+            workingdir = os.getcwd()
+            print ('workingdir: ', workingdir)
 
             build_exec_path =  os.path.join(tooldir, 'remotebin', template, '%s_Build.sh' %template)
             print ("build_exec_path: %s" %build_exec_path)
@@ -163,13 +166,13 @@ class BuildWrapper():
             
                 # In this case, look for .stderr and .stdout files in the work directory
                 print ('buildWrapper.py: hublib.cmd.command.executeCommand(%s) returned with a non zero exit code = %d\n' %(submitcmd, exitCode))
-                files = os.listdir(tooldir)
+                files = os.listdir(workingdir)
                 files.sort(key=lambda x: os.path.getmtime(x))
                 for file in files:
                     # Get the numbered Pegasus work directory
                     #print ('type(file): ', type(file)) #<class 'str'>
                     if os.path.isfile(file) and file[0].isdigit() and file.endswith('.stderr'):
-                        print ('stderr file: %s\n' %os.path.join(tooldir, file))
+                        print ('stderr file: %s\n' %os.path.join(workingdir, file))
                         print ('For the ghubex1 tool, the following errors were returned while running a Pegasus workflow: ')
                         with open(file) as f:
                             lines = f.readlines()
@@ -185,3 +188,4 @@ class BuildWrapper():
             
             print ('buildWrapper.py Exception: %s\n' %str(e))
             return 1
+

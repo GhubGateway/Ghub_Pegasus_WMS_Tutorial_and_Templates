@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
 
     std::string served_lunch_items;
     if (std::getline(fp1, served_lunch_items)) {
-        fp2 << served_lunch_items << " Thank you for lunch. Yum Yum!!\n";
+        fp2 << served_lunch_items << " Thank you for lunch. Yum Yum!!";
     }
 
     fp1.close();

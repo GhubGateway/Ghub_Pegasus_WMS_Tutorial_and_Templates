@@ -14,6 +14,6 @@
 
 # f.b contains the served lunch items
 
-echo -e "`cat f.b` Thank you for lunch. Yum Yum!!\n" > f.c
+echo -e "`cat f.b` Thank you for lunch. Yum Yum!!" > f.c
 
 # f.c contains the thank you note

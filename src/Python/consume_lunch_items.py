@@ -19,8 +19,8 @@ def main(argv):
     fp1 = open ('f.b', 'r')
     fp2 = open ('f.c', 'w')
 
-    served_lunch_items = fp1.readline()
-    fp2.write('%s Thank you for lunch. Yum Yum!!\n' %served_lunch_items)
+    served_lunch_items = fp1.readline().rstrip()
+    fp2.write('%s Thank you for lunch. Yum Yum!!' %served_lunch_items)
     
     fp1.close()
     fp2.close()

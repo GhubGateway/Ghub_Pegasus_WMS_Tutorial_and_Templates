@@ -21,7 +21,7 @@ program consume_lunch_items
     open(2, file='f.c', status='replace')
     
     read(1,'(A)') served_lunch_items
-    write(2,'(2A)') trim(served_lunch_items), ' Thank you for lunch. Yum Yum!!\n'
+    write(2,'(2A)') trim(served_lunch_items), ' Thank you for lunch. Yum Yum!!'
 
     close(1)
     close(2)

@@ -20,7 +20,7 @@ main <- function(argv) {
     fp2 <- file('f.c', 'w')
 
     served_lunch_items <- readLines(fp1, n=1)
-    writeLines(sprintf('%s Thank you for lunch. Yum Yum!!\n', served_lunch_items), fp2)
+    writeLines(sprintf('%s Thank you for lunch. Yum Yum!!', served_lunch_items), fp2)
     
     close(fp1)
     close(fp2)

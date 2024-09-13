@@ -19,6 +19,7 @@ def main(argv):
     fp1 = open ('f.b', 'r')
     fp2 = open ('f.c', 'w')
 
+    # Remove trailing "\n" added by fp1
     served_lunch_items = fp1.readline().rstrip()
     fp2.write('%s Thank you for lunch. Yum Yum!!' %served_lunch_items)
     

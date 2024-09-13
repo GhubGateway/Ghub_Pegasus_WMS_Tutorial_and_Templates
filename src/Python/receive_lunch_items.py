@@ -21,7 +21,8 @@ def main(argv):
     fp1 = open ('f.a', 'r')
     fp2 = open ('f.b', 'w')
     
-    lunch_items = fp1.readline()
+    # Remove trailing "\n" added by fp1
+    lunch_items = fp1.readline().rstrip()
     fp2.write ('Hello %s! Received lunch items: %s.' %(username, lunch_items))
     
     fp1.close()

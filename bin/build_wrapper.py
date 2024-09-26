@@ -68,9 +68,9 @@ class BuildWrapper():
                 
             # For the installed version of the tool, this resolves to /apps/ghubex1/r<revision number>
             tooldir = os.path.dirname(os.path.dirname(os.path.realpath(os.path.abspath(__file__))))
-            print ('tooldir: ', tooldir)
+            #print ('tooldir: ', tooldir)
             workingdir = os.getcwd()
-            print ('workingdir: ', workingdir)
+            #print ('workingdir: ', workingdir)
 
             build_exec_path =  os.path.join(tooldir, 'remotebin', template, '%s_Build.sh' %template)
             print ("build_exec_path: %s" %build_exec_path)
@@ -101,12 +101,9 @@ class BuildWrapper():
             # Configure the Replica Catalog and add the build job to the workflow
             ########################################################################
 
-            srcdir =  os.path.join(tooldir, 'src', template)
-            print ('srcdir: ', srcdir)
+            srccodedir =  os.path.join(tooldir, 'bin', template)
             srcfiles = [cfg.SRC1_LIST[self.template_index], cfg.SRC2_LIST[self.template_index]]
-            print ('srcfiles: ', srcfiles)
             binfiles = [cfg.BIN1_LIST[self.template_index], cfg.BIN2_LIST[self.template_index]]
-            print ('binfiles: ', binfiles)
 
             # On Ghub, .add_outputs register_replica must be set to False (the default is True) to prevent
             # Pegasus from returning with a post script failure.
@@ -117,7 +114,9 @@ class BuildWrapper():
             for i in range(len(srcfiles)):
             
                 srcfile = srcfiles[i]
-                rc.add_replica('local', File('%s' %srcfile), os.path.join(srcdir, '%s' %srcfile))
+                srcfilepath = os.path.join(srccodedir, '%s' %srcfile)
+                print ('srcfilepath [%d]: %s' %(i, srcfilepath))
+                rc.add_replica('local', File('%s' %srcfile), srcfilepath)
                 build_job.add_inputs(File('%s' %srcfile))
             
             for i in range(len(binfiles)):
@@ -125,6 +124,7 @@ class BuildWrapper():
                 # Executables are returned to the working directory and ghubex1.ipynb
                 # moves the executables to the bin directory when the workflow completes,
                 binfile = binfiles[i]
+                print ('binfile [%d]: %s' %(i, binfile))
                 build_job.add_outputs(File('%s' %binfile), stage_out=True, register_replica=False)
                 
             wf.add_jobs(build_job)

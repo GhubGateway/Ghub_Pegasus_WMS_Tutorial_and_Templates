@@ -3,8 +3,8 @@
 # Run as python run_R_test.py username
 #
 # Requires input file f.a,
-# src/R/receive_lunch_items.r,
-# src/R/consume_lunch_items.r and
+# bin/R/receive_lunch_items.r,
+# bin/R/consume_lunch_items.r and
 # remotebin/R/R_Launch.sh (mode 755) files.
 #######################################################
 

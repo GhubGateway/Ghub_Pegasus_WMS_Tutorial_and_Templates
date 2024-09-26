@@ -3,8 +3,8 @@
 # Run as python run_C_test.py username
 #
 # Requires input file f.a,
-# src/C/receive_lunch_items.c,
-# src/C/consume_lunch_items.c,
+# bin/C/receive_lunch_items.c,
+# bin/C/consume_lunch_items.c,
 # remotebin/C/C_Build.sh (mode 755) and
 # remotebin/C/C_Launch.sh (mode 755) files.
 #######################################################

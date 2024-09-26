@@ -49,13 +49,6 @@ class LaunchWrapper():
             template =  cfg.TEMPLATE_LIST[self.template_index]
             print ('template: %s' %template)
 
-            jobs_dir = os.path.join(cfg.JOBS_DIR[self.template_index], template)
-            print ('jobs_dir: %s' %jobs_dir)
-            job1 = cfg.JOB1_LIST[self.template_index]
-            print ('job1: %s' %job1)
-            job2 = cfg.JOB2_LIST[self.template_index]
-            print ('job2: %s' %job2)
-
             ########################################################################
             # Create and plan the Pegasus WMS workflow
             ########################################################################
@@ -76,9 +69,9 @@ class LaunchWrapper():
              
             # For the installed version of the tool, this resolves to /apps/ghubex1/r<revision number>
             tooldir = os.path.dirname(os.path.dirname(os.path.realpath(os.path.abspath(__file__))))
-            print ('tooldir: ', tooldir)
+            #print ('tooldir: ', tooldir)
             workingdir = os.getcwd()
-            print ('workingdir: ', workingdir)
+            #print ('workingdir: ', workingdir)
             
             launch_exec_path =  os.path.join(tooldir, 'remotebin', template, '%s_Launch.sh' %template)
             print ("launch_exec_path: %s" %launch_exec_path)
@@ -117,8 +110,16 @@ class LaunchWrapper():
             # These LFNs are mapped to Physical File Names (PFNs) when Pegasus plans the workflow.
             # Add input files to the DAX-level replica catalog
             
-            rc.add_replica('local', File(job1), os.path.join(tooldir, jobs_dir, job1))
-            rc.add_replica('local', File(job2), os.path.join(tooldir, jobs_dir, job2))
+            jobs_dir = os.path.join('bin', template)
+            job1 = cfg.JOB1_LIST[self.template_index]
+            job2 = cfg.JOB2_LIST[self.template_index]
+    
+            job1filepath = os.path.join(tooldir, jobs_dir, job1)
+            print ('job1filepath: %s' %job1filepath)
+            rc.add_replica('local', File(job1), job1filepath)
+            job2filepath = os.path.join(tooldir, jobs_dir, job2)
+            print ('job2filepath: %s' %job2filepath)
+            rc.add_replica('local', File(job2), job2filepath)
             rc.add_replica('local', File('f.a'), f_a_filepath)
 
             ########################################################################

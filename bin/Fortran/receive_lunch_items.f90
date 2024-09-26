@@ -12,7 +12,7 @@
 
 program receive_lunch_items
     
-    integer,parameter :: MAXSTRLEN=80
+    integer,parameter :: MAXSTRLEN=512
     CHARACTER(LEN=MAXSTRLEN) :: username, lunch_items
 
     call getarg(1, username)

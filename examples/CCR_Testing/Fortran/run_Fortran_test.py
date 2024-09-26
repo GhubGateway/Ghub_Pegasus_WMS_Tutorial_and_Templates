@@ -3,8 +3,8 @@
 # Run as python run_Fortran_test.py username
 #
 # Requires input file f.a,
-# src/MATLAB/receive_lunch_items.f90,
-# src/MATLAB/consume_lunch_items.f90,
+# bin/Fortran/receive_lunch_items.f90,
+# bin/Fortran/consume_lunch_items.f90,
 # remotebin/Fortran/Fortran_Build.sh (mode 755) and
 # remotebin/Fortran/Fortran_Launch.sh (mode 755) files.
 #######################################################

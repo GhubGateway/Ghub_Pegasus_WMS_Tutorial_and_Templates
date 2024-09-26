@@ -3,8 +3,8 @@
 # Run as python run_CPP_test.py username
 #
 # Requires input file f.a,
-# src/CPP/receive_lunch_items.cpp,
-# src/CPP/consume_lunch_items.cpp,
+# bin/CPP/receive_lunch_items.cpp,
+# bin/CPP/consume_lunch_items.cpp,
 # remotebin/CPP/CPP_Build.sh (mode 755) and
 # remotebin/CPP/CPP_Launch.sh (mode 755) files.
 #######################################################

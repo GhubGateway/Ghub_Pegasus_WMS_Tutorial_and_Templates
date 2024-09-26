@@ -3,8 +3,8 @@
 # Run as python run_Python_test.py username
 #
 # Requires input file f.a,
-# src/Python/receive_lunch_items.py,
-# src/Python/consume_lunch_items.py and
+# bin/Python/receive_lunch_items.py,
+# bin/Python/consume_lunch_items.py and
 # remotebin/Python/Python_Launch.sh (mode 755) files.
 #######################################################
 

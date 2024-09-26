@@ -3,8 +3,8 @@
 # Run as python run_MATLAB_test.py username
 #
 # Requires input file f.a,
-# src/MATLAB/receive_lunch_items.m,
-# src/MATLAB/consume_lunch_items.m,
+# bin/MATLAB/receive_lunch_items.m,
+# bin/MATLAB/consume_lunch_items.m,
 # remotebin/MATLAB/MATLAB_Build.sh (mode 755) and
 # remotebin/MATLAB/MATLAB_Launch.sh (mode 755) files.
 #######################################################

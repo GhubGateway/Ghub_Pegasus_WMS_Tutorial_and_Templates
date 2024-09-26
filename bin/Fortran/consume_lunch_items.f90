@@ -12,7 +12,7 @@
 
 program consume_lunch_items
     
-    integer,parameter :: MAXSTRLEN=80
+    integer,parameter :: MAXSTRLEN=512
     CHARACTER(LEN=MAXSTRLEN) :: served_lunch_items
 
     ! f.b contains the served lunch items

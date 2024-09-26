@@ -9,8 +9,6 @@
 
 # In the Pegasus WMS YAML file,
 # this job is specified to have the f.b input file and the f.c output file
-# In the Pegasus WMS YAML file,
-# this job is specified to have the f.b input file and the f.c output file
 
 main <- function(argv) {
     

@@ -102,7 +102,7 @@ class BuildWrapper():
             ########################################################################
 
             srccodedir =  os.path.join(tooldir, 'bin', template)
-            srcfiles = [cfg.SRC1_LIST[self.template_index], cfg.SRC2_LIST[self.template_index]]
+            srcfiles = [cfg.CODE1_LIST[self.template_index], cfg.CODE2_LIST[self.template_index]]
             binfiles = [cfg.BIN1_LIST[self.template_index], cfg.BIN2_LIST[self.template_index]]
 
             # On Ghub, .add_outputs register_replica must be set to False (the default is True) to prevent
